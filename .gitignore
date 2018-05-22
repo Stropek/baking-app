@@ -1,3 +1,6 @@
+*.iml
+.DS_Store
+
 # Built application files
 *.apk
 *.ap_
@@ -36,6 +39,7 @@ captures/
 *.iml
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/modules.xml
 .idea/gradle.xml
 .idea/assetWizardSettings.xml
 .idea/dictionaries
