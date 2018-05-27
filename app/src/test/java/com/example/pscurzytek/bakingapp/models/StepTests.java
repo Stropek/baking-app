@@ -9,73 +9,73 @@ public class StepTests {
     @Test
     public void constructor_setsAllFields() {
         // when
-        Step Step = new Step(1, "short", "desc", "video", "thumbnail");
+        Step step= new Step(1, "short", "desc", "video", "thumbnail");
 
         // then
-        assertEquals(1, Step.getId());
-        assertEquals("short", Step.getShortDescription());
-        assertEquals("desc", Step.getDescription());
-        assertEquals("video", Step.getVideoUrl());
-        assertEquals("thumbnail", Step.getThumbnailUrl());
+        assertEquals(1, step.getId());
+        assertEquals("short", step.getShortDescription());
+        assertEquals("desc", step.getDescription());
+        assertEquals("video", step.getVideoUrl());
+        assertEquals("thumbnail", step.getThumbnailUrl());
     }
 
     @Test
     public void setId_setsId() {
         // given
-        Step Step = new Step(1, "short", "desc", "video", "thumbnail");
+        Step step= new Step(1, "short", "desc", "video", "thumbnail");
 
         // when
-        Step.setId(10);
+        step.setId(10);
 
         // then
-        assertEquals(10, Step.getId());
+        assertEquals(10, step.getId());
     }
 
     @Test
     public void setShortDescription_setsShortDescription() {
         // given
-        Step Step = new Step(1, "short", "desc", "video", "thumbnail");
+        Step step= new Step(1, "short", "desc", "video", "thumbnail");
 
         // when
-        Step.setShortDescription("changed short");
+        step.setShortDescription("changed short");
 
         // then
-        assertEquals("changed short", Step.getShortDescription());
+        assertEquals("changed short", step.getShortDescription());
     }
 
     @Test
     public void setStep_setsStep() {
         // given
-        Step Step = new Step(1, "short", "desc", "video", "thumbnail");
+        Step step= new Step(1, "short", "desc", "video", "thumbnail");
 
         // when
-        Step.setDescription("changed desc");
+        step.setDescription("changed desc");
 
         // then
-        assertEquals("changed desc", Step.getDescription());
+        assertEquals("changed desc", step.getDescription());
     }
 
     @Test
     public void setVideoUrl_setsVideoUrl() {
         // given
-        Step Step = new Step(1, "short", "desc", "video", "thumbnail");
+        Step step= new Step(1, "short", "desc", "video", "thumbnail");
 
         // when
-        Step.setVideoUrl("changed video");
+        step.setVideoUrl("changed video");
 
         // then
-        assertEquals("changed video", Step.getVideoUrl());
+        assertEquals("changed video", step.getVideoUrl());
     }
 
     @Test
     public void setThumbnailUrl_setsThumbnailUrl() {
         // given
-        Step Step = new Step(1, "short", "desc", "video", "thumbnail");
+        Step step= new Step(1, "short", "desc", "video", "thumbnail");
 
         // when
-        Step.setThumbnailUrl("changed thumbnail");
+        step.setThumbnailUrl("changed thumbnail");
 
         // then
-        assertEquals("changed thumbnail", Step.getThumbnailUrl());
+        assertEquals("changed thumbnail", step.getThumbnailUrl());
     }
 }

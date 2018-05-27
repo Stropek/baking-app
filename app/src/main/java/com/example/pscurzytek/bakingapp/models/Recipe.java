@@ -9,12 +9,12 @@ public class Recipe implements Parcelable {
 
     private int id;
     private String name;
-    private List<String> ingredients;
-    private List<String> steps;
+    private List<Ingredient> ingredients;
+    private List<Step> steps;
     private int servings;
     private String image;
 
-    public Recipe(int id, String name, List<String> ingredients, List<String> steps, int servings, String image) {
+    Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings, String image) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -26,8 +26,8 @@ public class Recipe implements Parcelable {
     private Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        in.readStringList(ingredients);
-        in.readStringList(steps);
+        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
         servings = in.readInt();
         image = in.readString();
     }
@@ -54,8 +54,8 @@ public class Recipe implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
-        dest.writeStringList(ingredients);
-        dest.writeStringList(steps);
+        dest.writeTypedList(ingredients);
+        dest.writeTypedList(steps);
         dest.writeInt(servings);
         dest.writeString(image);
     }
@@ -76,19 +76,19 @@ public class Recipe implements Parcelable {
         this.name = _name;
     }
 
-    public List<String> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> _ingredients) {
+    public void setIngredients(List<Ingredient> _ingredients) {
         this.ingredients = _ingredients;
     }
 
-    public List<String> getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<String> _steps) {
+    public void setSteps(List<Step> _steps) {
         this.steps = _steps;
     }
 
