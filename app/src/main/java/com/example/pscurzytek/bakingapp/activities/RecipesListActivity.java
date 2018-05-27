@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import com.example.pscurzytek.bakingapp.R;
-import com.example.pscurzytek.bakingapp.adapters.RecipeAdapter;
-import com.example.pscurzytek.bakingapp.loaders.RecipeLoader;
+//import com.example.pscurzytek.bakingapp.adapters.RecipeAdapter;
+//import com.example.pscurzytek.bakingapp.loaders.RecipeLoader;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 
 import butterknife.BindView;
@@ -27,12 +27,13 @@ public class RecipesListActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        recipesGridView.setAdapter(new RecipeAdapter(this));
+//        recipesGridView.setAdapter(new RecipeAdapter(this));
     }
 
     @Override
     public Loader<Recipe> onCreateLoader(int id, Bundle args) {
-        return new RecipeLoader(this);
+        return null;
+//        return new RecipeLoader(this);
     }
 
     @Override
