@@ -34,8 +34,8 @@ public class RecipeTests {
         // then
         assertEquals(fromParcel.getId(), recipe.getId());
         assertEquals(fromParcel.getName(), recipe.getName());
-        assertEquals(fromParcel.getIngredients(), recipe.getIngredients());
-        assertEquals(fromParcel.getSteps(), recipe.getSteps());
+        assertEquals(fromParcel.getIngredients().get(0).getIngredient(), recipe.getIngredients().get(0).getIngredient());
+        assertEquals(fromParcel.getSteps().get(0).getDescription(), recipe.getSteps().get(0).getDescription());
         assertEquals(fromParcel.getServings(), recipe.getServings());
         assertEquals(fromParcel.getImage(), recipe.getImage());
     }
