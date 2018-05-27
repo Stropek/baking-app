@@ -1,7 +1,5 @@
 package com.example.pscurzytek.bakingapp.models;
 
-import android.os.Parcel;
-
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
