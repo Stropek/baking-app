@@ -39,4 +39,13 @@ public class RecipeTests {
         assertEquals(fromParcel.getServings(), recipe.getServings());
         assertEquals(fromParcel.getImage(), recipe.getImage());
     }
+
+    @Test
+    public void newArray_returnsNewArrayOfGivenSize() {
+        // when
+        Recipe[] recipes = Recipe.CREATOR.newArray(10);
+
+        // then
+        assertEquals(10, recipes.length);
+    }
 }

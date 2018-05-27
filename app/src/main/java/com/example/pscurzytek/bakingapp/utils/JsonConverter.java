@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonConverter {
+public abstract class JsonConverter {
     public static <T> T convertTo(JSONObject jsonObject, Class<T> type) {
         if (jsonObject == null) {
             return null;

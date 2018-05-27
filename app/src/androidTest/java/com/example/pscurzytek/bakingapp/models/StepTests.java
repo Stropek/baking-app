@@ -29,4 +29,13 @@ public class StepTests {
         assertEquals(fromParcel.getVideoUrl(), step.getVideoUrl());
         assertEquals(fromParcel.getThumbnailUrl(), step.getThumbnailUrl());
     }
+
+    @Test
+    public void newArray_returnsNewArrayOfGivenSize() {
+        // when
+        Step[] steps = Step.CREATOR.newArray(10);
+
+        // then
+        assertEquals(10, steps.length);
+    }
 }

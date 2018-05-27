@@ -27,4 +27,13 @@ public class IngredientTests {
         assertEquals(fromParcel.getMeasure(), ingredient.getMeasure());
         assertEquals(fromParcel.getIngredient(), ingredient.getIngredient());
     }
+
+    @Test
+    public void newArray_returnsNewArrayOfGivenSize() {
+        // when
+        Ingredient[] ingredients = Ingredient.CREATOR.newArray(10);
+
+        // then
+        assertEquals(10, ingredients.length);
+    }
 }
