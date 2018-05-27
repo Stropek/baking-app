@@ -1,5 +1,6 @@
-package com.example.pscurzytek.bakingapp;
+package com.example.pscurzytek.bakingapp.utils;
 
+import com.example.pscurzytek.bakingapp.MockData;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.utils.JsonConverter;
 
@@ -60,8 +61,8 @@ public class JsonConverterTests {
         List<Recipe> result = JsonConverter.convertListTo(jsonObject, Recipe.class);
 
         // then
-//        assertEquals(2, result.size());
-//        assertEquals("recipe 1", result.get(0).getName());
-//        assertEquals("recipe 2", result.get(1).getName());
+        assertEquals(2, result.size());
+        assertEquals("recipe 1", result.get(0).getName());
+        assertEquals("recipe 2", result.get(1).getName());
     }
 }

@@ -23,7 +23,7 @@ public class Recipe implements Parcelable {
         this.image = image;
     }
 
-    protected Recipe(Parcel in) {
+    private Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
         in.readStringList(ingredients);
@@ -31,6 +31,19 @@ public class Recipe implements Parcelable {
         servings = in.readInt();
         image = in.readString();
     }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -46,19 +59,6 @@ public class Recipe implements Parcelable {
         dest.writeInt(servings);
         dest.writeString(image);
     }
-
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-
-        @Override
-        public Recipe createFromParcel(Parcel in) {
-            return new Recipe(in);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
 
     public int getId() {
         return id;
