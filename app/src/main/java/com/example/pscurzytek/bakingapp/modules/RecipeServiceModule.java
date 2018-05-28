@@ -1,4 +1,6 @@
-package com.example.pscurzytek.bakingapp.services;
+package com.example.pscurzytek.bakingapp.modules;
+
+import com.example.pscurzytek.bakingapp.services.RecipeService;
 
 import javax.inject.Singleton;
 

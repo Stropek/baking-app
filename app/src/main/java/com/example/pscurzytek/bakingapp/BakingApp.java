@@ -2,7 +2,7 @@ package com.example.pscurzytek.bakingapp;
 
 import android.app.Application;
 
-import com.example.pscurzytek.bakingapp.services.RecipeServiceModule;
+import com.example.pscurzytek.bakingapp.modules.RecipeServiceModule;
 
 public class BakingApp extends Application {
 
