@@ -3,6 +3,7 @@
     package="com.example.pscurzytek.bakingapp">
 
     <application
+        android:name=".BakingApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

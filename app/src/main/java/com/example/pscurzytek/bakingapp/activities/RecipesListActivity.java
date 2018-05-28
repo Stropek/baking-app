@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.GridView;
 
+import com.example.pscurzytek.bakingapp.BakingApp;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.adapters.RecipeAdapter;
 import com.example.pscurzytek.bakingapp.loaders.RecipeLoader;
@@ -14,6 +15,8 @@ import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.services.RecipeService;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +26,8 @@ public class RecipesListActivity extends AppCompatActivity
 
     private final int RECIPE_LOADER_ID = 1;
 
-//    @Inject ---> TODO: set up dagger DI
-    public RecipeService recipeService = new RecipeService();
+    @Inject
+    public RecipeService recipeService;
 
     private RecipeAdapter recipeAdapter;
 
@@ -37,6 +40,9 @@ public class RecipesListActivity extends AppCompatActivity
         setContentView(R.layout.activity_recipes_list);
 
         ButterKnife.bind(this);
+
+        BakingApp app = (BakingApp) this.getApplication();
+        app.appComponent.inject(this);
 
         recipeAdapter = new RecipeAdapter(this);
         recipesGridView.setAdapter(recipeAdapter);
