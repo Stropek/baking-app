@@ -9,10 +9,10 @@ public class IngredientTests {
     @Test
     public void constructor_setsAllFields() {
         // when
-        Ingredient ingredient = new Ingredient(1, "measure", "ingredient");
+        Ingredient ingredient = new Ingredient(1.0, "measure", "ingredient");
 
         // then
-        assertEquals(1, ingredient.getQuantity());
+        assertEquals(1.0, ingredient.getQuantity());
         assertEquals("measure", ingredient.getMeasure());
         assertEquals("ingredient", ingredient.getIngredient());
     }
@@ -23,10 +23,10 @@ public class IngredientTests {
         Ingredient ingredient = new Ingredient(1, "measure", "ingredient");
 
         // when
-        ingredient.setQuantity(10);
+        ingredient.setQuantity(10.0);
 
         // then
-        assertEquals(10, ingredient.getQuantity());
+        assertEquals(10.0, ingredient.getQuantity());
     }
 
     @Test

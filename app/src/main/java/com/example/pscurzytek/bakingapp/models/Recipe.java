@@ -101,6 +101,9 @@ public class Recipe implements Parcelable {
     }
 
     public String getImage() {
+        if (image.isEmpty()) {
+            return "no-image";
+        }
         return image;
     }
 
