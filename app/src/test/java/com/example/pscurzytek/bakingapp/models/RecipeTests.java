@@ -15,7 +15,7 @@ public class RecipeTests {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(new Ingredient(1, "cup", "sugar"));
 
-        List<Step> steps = new ArrayList<>();
+        ArrayList<Step> steps = new ArrayList<>();
         steps.add(new Step(1, "short desc", "desc", "video", "thumbnail"));
 
         // when
@@ -75,7 +75,7 @@ public class RecipeTests {
         Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
 
         // when
-        List<Step> changedSteps = new ArrayList<>();
+        ArrayList<Step> changedSteps = new ArrayList<>();
         changedSteps.add(new Step(1, "short desc", "desc", "video", "thumbnail"));
 
         recipe.setSteps(changedSteps);

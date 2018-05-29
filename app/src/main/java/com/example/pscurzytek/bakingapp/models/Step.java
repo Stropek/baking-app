@@ -11,7 +11,7 @@ public class Step implements Parcelable {
     private String videoUrl;
     private String thumbnailUrl;
 
-    Step(int id, String shortDescription, String description, String videoUrl, String thumbnailUrl) {
+    public Step(int id, String shortDescription, String description, String videoUrl, String thumbnailUrl) {
         this.id = id;
         this.shortDescription = shortDescription;
         this.description = description;

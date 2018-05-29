@@ -1,6 +1,7 @@
 package com.example.pscurzytek.bakingapp.activities;
 
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.widget.GridView;
 
 import com.example.pscurzytek.bakingapp.BakingApp;
+import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.adapters.RecipeAdapter;
 import com.example.pscurzytek.bakingapp.loaders.RecipeLoader;
@@ -26,10 +28,10 @@ public class RecipesListActivity extends AppCompatActivity
 
     private final int RECIPE_LOADER_ID = 1;
 
+    private RecipeAdapter recipeAdapter;
+
     @Inject
     public RecipeService recipeService;
-
-    private RecipeAdapter recipeAdapter;
 
     @BindView(R.id.recipes_grid_view)
     public GridView recipesGridView;
@@ -46,6 +48,15 @@ public class RecipesListActivity extends AppCompatActivity
 
         recipeAdapter = new RecipeAdapter(this);
         recipesGridView.setAdapter(recipeAdapter);
+        recipesGridView.setOnItemClickListener((parent, view, position, id) -> {
+
+            Recipe recipe = (Recipe) recipesGridView.getItemAtPosition(position);
+
+            Intent intent = new Intent(view.getContext(), RecipeDetailsActivity.class);
+            intent.putParcelableArrayListExtra(Constants.BundleKeys.StepsList, recipe.getSteps());
+
+            startActivity(intent);
+        });
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         if (displayMetrics.widthPixels <= 1200) {

@@ -20,7 +20,7 @@ public class RecipeTests {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(new Ingredient(1, "cup", "sugar"));
 
-        List<Step> steps = new ArrayList<>();
+        ArrayList<Step> steps = new ArrayList<>();
         steps.add(new Step(1, "short desc", "desc", "video", "thumbnail"));
 
         Recipe recipe = new Recipe(1, "recipe", ingredients, steps, 1, "");

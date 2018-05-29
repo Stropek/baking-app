@@ -11,19 +11,10 @@ import khttp.KHttp;
 
 public class RecipeService {
 
-    private final String RecipesUrl = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-
     public List<Recipe> getRecipes() {
-        JSONArray array = KHttp.get(RecipesUrl).getJsonArray();
+        String recipesUrl = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+        JSONArray array = KHttp.get(recipesUrl).getJsonArray();
 
         return JsonConverter.convertListTo(array, Recipe.class);
-    }
-
-    public Recipe getRecipeById(int id) {
-        JSONArray array = KHttp.get(RecipesUrl).getJsonArray();
-
-        List<Recipe> recipes = JsonConverter.convertListTo(array, Recipe.class);
-
-        return recipes.stream().filter(r -> r.getId() == id).findFirst().get();
     }
 }

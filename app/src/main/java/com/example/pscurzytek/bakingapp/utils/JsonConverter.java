@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class JsonConverter {
+
     public static <T> T convertTo(JSONObject jsonObject, Class<T> type) {
         if (jsonObject == null) {
             return null;

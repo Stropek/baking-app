@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">BakingApp</string>
-    <string name="test">test</string>
+    <string name="app_name">Baking App</string>
+    <string name="RecipeDetails">Recipe</string>
+    <string name="StepDetails">Step</string>
 </resources>

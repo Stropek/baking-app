@@ -17,6 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.RecipeDetailsActivity"
+            android:label="@string/RecipeDetails"
+            android:parentActivityName=".activities.RecipesListActivity" />
+        <activity android:name=".activities.StepDetailsActivity"
+            android:label="@string/StepDetails"
+            android:parentActivityName=".activities.RecipeDetailsActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

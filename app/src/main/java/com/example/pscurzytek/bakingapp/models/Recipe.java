@@ -2,7 +2,9 @@ package com.example.pscurzytek.bakingapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe implements Parcelable {
@@ -10,11 +12,11 @@ public class Recipe implements Parcelable {
     private int id;
     private String name;
     private List<Ingredient> ingredients;
-    private List<Step> steps;
+    private ArrayList<Step> steps;
     private int servings;
     private String image;
 
-    public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings, String image) {
+    public Recipe(int id, String name, List<Ingredient> ingredients, ArrayList<Step> steps, int servings, String image) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -84,11 +86,11 @@ public class Recipe implements Parcelable {
         this.ingredients = _ingredients;
     }
 
-    public List<Step> getSteps() {
+    public ArrayList<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> _steps) {
+    public void setSteps(ArrayList<Step> _steps) {
         this.steps = _steps;
     }
 

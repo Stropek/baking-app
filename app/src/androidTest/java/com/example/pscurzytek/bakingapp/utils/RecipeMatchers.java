@@ -13,6 +13,20 @@ import org.hamcrest.TypeSafeMatcher;
 
 public class RecipeMatchers {
 
+    public static Matcher<Recipe> withRecipeId(final int id){
+        return new TypeSafeMatcher<Recipe>(){
+            @Override
+            public boolean matchesSafely(Recipe recipe) {
+                return id == recipe.getId();
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText(String.format("Grid View should contain a recipe with id: %s", id));
+            }
+        };
+    }
+
     public static Matcher<View> withGridSize (final int size) {
         return new TypeSafeMatcher<View> () {
             @Override public boolean matchesSafely (final View view) {
