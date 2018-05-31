@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pscurzytek.bakingapp.R;
+import com.example.pscurzytek.bakingapp.fragments.StepsListFragment;
 import com.example.pscurzytek.bakingapp.models.Step;
 
 import java.util.ArrayList;
@@ -20,9 +21,12 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
     private final Context context;
     private List<Step> steps;
 
-    public StepRecyclerAdapter(Context context, ArrayList<Step> steps) {
+    private OnStepSelectedListener stepSelectedListener;
+
+    public StepRecyclerAdapter(Context context, ArrayList<Step> steps, OnStepSelectedListener stepSelectedListener) {
         this.context = context;
         this.steps = steps;
+        this.stepSelectedListener = stepSelectedListener;
     }
 
     @NonNull
@@ -47,6 +51,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
             holder.itemView.setOnClickListener(v -> {
                 // TODO: implement actual action
                 Log.d("TAG", "Recycler view item clicked!");
+                stepSelectedListener.loadDetails(step);
             });
         }
     }
@@ -70,5 +75,10 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
             stepNumberTextView = itemView.findViewById(R.id.step_number_textView);
             shortDescriptionTextView = itemView.findViewById(R.id.short_description_textView);
         }
+    }
+
+    public interface OnStepSelectedListener {
+
+        void loadDetails(Step step);
     }
 }

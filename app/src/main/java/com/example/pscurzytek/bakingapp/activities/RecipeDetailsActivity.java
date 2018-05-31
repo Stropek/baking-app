@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
@@ -13,7 +14,8 @@ import com.example.pscurzytek.bakingapp.models.Step;
 
 import java.util.ArrayList;
 
-public class RecipeDetailsActivity extends AppCompatActivity {
+public class RecipeDetailsActivity extends AppCompatActivity
+    implements StepsListFragment.OnStepSelectedListener {
 
     private StepsListFragment stepsListFragment;
     private StepDetailsFragment stepDetailsFragment;
@@ -69,8 +71,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         StepsListFragment fragment = new StepsListFragment();
 
         Bundle bundle = new Bundle();
-
-        ArrayList<Step> test = getIntent().getParcelableArrayListExtra(Constants.BundleKeys.StepsList);
         bundle.putParcelableArrayList(Constants.BundleKeys.StepsList, getIntent().getParcelableArrayListExtra(Constants.BundleKeys.StepsList));
         fragment.setArguments(bundle);
 
@@ -85,5 +85,19 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
 
         return fragment;
+    }
+
+    @Override
+    public void onStepSelected(Step step) {
+        Log.d("TAG", "load step data to recipe details");
+
+        if (isBigScreen) {
+            Log.d("TAG", "load step data to recipe details fragment");
+        }
+    }
+
+    @Override
+    public boolean isBigScreen() {
+        return isBigScreen;
     }
 }
