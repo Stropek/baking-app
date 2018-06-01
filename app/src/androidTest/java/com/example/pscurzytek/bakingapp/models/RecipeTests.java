@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -17,7 +16,7 @@ public class RecipeTests {
     @Test
     public void createFromParcel_returnsParceledRecipe() {
         // given
-        List<Ingredient> ingredients = new ArrayList<>();
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(new Ingredient(1, "cup", "sugar"));
 
         ArrayList<Step> steps = new ArrayList<>();

@@ -1,23 +1,26 @@
 package com.example.pscurzytek.bakingapp.activities;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
+import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
-import com.example.pscurzytek.bakingapp.models.Recipe;
+import com.example.pscurzytek.bakingapp.models.Ingredient;
+import com.example.pscurzytek.bakingapp.models.Step;
+import com.example.pscurzytek.bakingapp.utils.ObjectFactory;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.example.pscurzytek.bakingapp.utils.RecipeMatchers.withGridSize;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class RecipeDetailsActivityTests {
@@ -29,12 +32,18 @@ public class RecipeDetailsActivityTests {
     @Test
     public void default_displaysRecipeDetails() {
         // given
-//        List<Recipe> recipes = createRecipes(10);
+        ArrayList<Ingredient> ingredients = ObjectFactory.createIngredients(5);
+        ArrayList<Step> steps = ObjectFactory.createSteps(5);
+
+        Intent intent = new Intent();
+        intent.putParcelableArrayListExtra(Constants.BundleKeys.IngredientsList, ingredients);
+        intent.putParcelableArrayListExtra(Constants.BundleKeys.StepsList, steps);
 
         // when
-        testRule.launchActivity(null);
+        testRule.launchActivity(intent);
 
         // then
-        onView(withId(R.id.recipes_grid_view)).check(matches(withGridSize(10)));
+//        onView(withId(R.id.ingredients_textView))
+        onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("5."))));
     }
 }

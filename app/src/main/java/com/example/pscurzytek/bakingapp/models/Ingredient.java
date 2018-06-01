@@ -9,7 +9,7 @@ public class Ingredient implements Parcelable {
     private String measure;
     private String ingredient;
 
-    Ingredient(double quantity, String measure, String ingredient) {
+    public Ingredient(double quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;
@@ -32,6 +32,11 @@ public class Ingredient implements Parcelable {
             return new Ingredient[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s %s", ingredient, quantity, measure);
+    }
 
     @Override
     public int describeContents() {

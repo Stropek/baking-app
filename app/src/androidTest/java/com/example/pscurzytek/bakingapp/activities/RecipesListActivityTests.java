@@ -10,9 +10,9 @@ import com.example.pscurzytek.bakingapp.DaggerTestAppComponent;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.TestAppComponent;
 import com.example.pscurzytek.bakingapp.models.Recipe;
-import com.example.pscurzytek.bakingapp.models.Step;
 import com.example.pscurzytek.bakingapp.modules.TestRecipeServiceModule;
 import com.example.pscurzytek.bakingapp.services.RecipeService;
+import com.example.pscurzytek.bakingapp.utils.ObjectFactory;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,7 +20,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,7 +62,7 @@ public class RecipesListActivityTests {
     @Test
     public void default_displaysRecipes() {
         // given
-        List<Recipe> recipes = createRecipes(10);
+        List<Recipe> recipes = ObjectFactory.createRecipes(10);
         when(recipeService.getRecipes()).thenReturn(recipes);
 
         // when
@@ -76,7 +75,7 @@ public class RecipesListActivityTests {
     @Test
     public void clickRecipe_opensRecipeDetailsActivity() {
         // given
-        List<Recipe> recipes = createRecipes(5);
+        List<Recipe> recipes = ObjectFactory.createRecipes(5);
         when(recipeService.getRecipes()).thenReturn(recipes);
         testRule.launchActivity(null);
 
@@ -85,41 +84,5 @@ public class RecipesListActivityTests {
 
         // then
         onView(withId(R.id.steps_list_fragment)).check(matches(isDisplayed()));
-    }
-
-    private List<Recipe> createRecipes(int count) {
-        List<Recipe> recipes = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            recipes.add(createRecipe(i));
-        }
-
-        return recipes;
-    }
-
-    private Recipe createRecipe(int id) {
-        String name = String.format("recipe %s", id);
-        int servings = 10 * id;
-        ArrayList<Step> steps = createSteps(id);
-        String image = String.format("image %s", id);
-
-        return new Recipe(id, name, new ArrayList<>(), steps, servings, image);
-    }
-
-    private ArrayList<Step> createSteps(int count) {
-        ArrayList<Step> steps = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            steps.add(createStep(i));
-        }
-
-        return steps;
-    }
-
-    private Step createStep(int stepNumber) {
-        String shortDesc = String.format("short desc %s", stepNumber);
-        String desc = String.format("desc %s", stepNumber);
-
-        return new Step(stepNumber, shortDesc, desc, "video", "thumbnail");
     }
 }

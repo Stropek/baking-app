@@ -18,6 +18,7 @@ import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.activities.StepDetailsActivity;
 import com.example.pscurzytek.bakingapp.adapters.StepRecyclerAdapter;
+import com.example.pscurzytek.bakingapp.models.Ingredient;
 import com.example.pscurzytek.bakingapp.models.Step;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class StepsListFragment extends Fragment
     private final int STEP_DETAILS_REQUEST = 1;
 
     private Activity activity;
+    private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
 
     private StepRecyclerAdapter stepRecyclerAdapter;
@@ -67,7 +69,11 @@ public class StepsListFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_steps_list, container, false);
         ButterKnife.bind(this, view);
 
-        ingredientsTextView.setText("List of recipe ingredients");
+        StringBuilder ingredientsText = new StringBuilder("Ingredients:");
+        for (Ingredient ingredient: ingredients) {
+            ingredientsText.append(String.format("\n- %s", ingredient));
+        }
+        ingredientsTextView.setText(ingredientsText.toString());
 
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(stepsRecyclerView.getContext()));
         stepsRecyclerView.setAdapter(stepRecyclerAdapter);
@@ -117,6 +123,7 @@ public class StepsListFragment extends Fragment
         if (savedInstanceState == null) {
             Bundle arguments = getArguments();
             if (arguments != null) {
+                ingredients = arguments.getParcelableArrayList(Constants.BundleKeys.IngredientsList);
                 steps = arguments.getParcelableArrayList(Constants.BundleKeys.StepsList);
 //                currentStep = arguments.getParcelable(Constants.BundleKeys.StepDetails);
             }

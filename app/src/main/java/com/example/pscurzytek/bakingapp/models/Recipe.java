@@ -11,12 +11,12 @@ public class Recipe implements Parcelable {
 
     private int id;
     private String name;
-    private List<Ingredient> ingredients;
+    private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
     private int servings;
     private String image;
 
-    public Recipe(int id, String name, List<Ingredient> ingredients, ArrayList<Step> steps, int servings, String image) {
+    public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, int servings, String image) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -78,11 +78,11 @@ public class Recipe implements Parcelable {
         this.name = _name;
     }
 
-    public List<Ingredient> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> _ingredients) {
+    public void setIngredients(ArrayList<Ingredient> _ingredients) {
         this.ingredients = _ingredients;
     }
 
