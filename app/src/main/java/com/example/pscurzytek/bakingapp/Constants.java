@@ -7,6 +7,9 @@ public class Constants {
         public final static String StepsList = "steps_list";
         public final static String RecipeDetails = "recipe_details";
         public final static String IngredientsList = "ingredients_list";
+        public final static String PlayerAutoPlay = "player_auto_play";
+        public final static String PlayerWindow= "player_window";
+        public final static String PlayerPosition = "player_position";
     }
 
     public static class StateKeys {

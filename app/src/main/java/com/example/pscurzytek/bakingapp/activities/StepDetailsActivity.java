@@ -61,11 +61,7 @@ public class StepDetailsActivity extends AppCompatActivity {
 
     private StepDetailsFragment getStepDetailsFragment() {
         StepDetailsFragment fragment = new StepDetailsFragment();
-
-        Bundle bundle = new Bundle();
-        // TODO: pass any arguments that fragment needs
-        fragment.setArguments(bundle);
-
+        fragment.setArguments(getIntent().getExtras());
         return fragment;
     }
 }

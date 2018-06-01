@@ -21,6 +21,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
 public class RecipeDetailsActivityTests {
@@ -43,7 +44,7 @@ public class RecipeDetailsActivityTests {
         testRule.launchActivity(intent);
 
         // then
-//        onView(withId(R.id.ingredients_textView))
+        onView(withId(R.id.ingredients_textView)).check(matches(withText(containsString("- ingredient 4 - 4.0 measure 4"))));
         onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("5."))));
     }
 }
