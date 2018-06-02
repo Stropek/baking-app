@@ -12,7 +12,7 @@ public class RecipeTests {
     @Test
     public void constructor_setsAllFields() {
         // given
-        List<Ingredient> ingredients = new ArrayList<>();
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(new Ingredient(1, "cup", "sugar"));
 
         ArrayList<Step> steps = new ArrayList<>();
@@ -60,7 +60,7 @@ public class RecipeTests {
         Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
 
         // when
-        List<Ingredient> changedIngredients = new ArrayList<>();
+        ArrayList<Ingredient> changedIngredients = new ArrayList<>();
         changedIngredients.add(new Ingredient(1, "cup", "sugar"));
 
         recipe.setIngredients(changedIngredients);
