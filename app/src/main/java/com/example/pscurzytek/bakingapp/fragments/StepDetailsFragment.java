@@ -99,7 +99,7 @@ public class StepDetailsFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_step_details, container, false);
+        View view = inflater.inflate(R.layout.step_details_fragment, container, false);
         ButterKnife.bind(this, view);
 
         instructionsTextView.setText(step.getDescription());

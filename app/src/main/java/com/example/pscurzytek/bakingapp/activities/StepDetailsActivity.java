@@ -22,7 +22,7 @@ public class StepDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_step_details);
+        setContentView(R.layout.step_details_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         steps = getIntent().getParcelableArrayListExtra(Constants.BundleKeys.StepsList);

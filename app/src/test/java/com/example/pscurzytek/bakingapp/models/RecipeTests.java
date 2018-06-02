@@ -3,7 +3,6 @@ package com.example.pscurzytek.bakingapp.models;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -33,7 +32,7 @@ public class RecipeTests {
     @Test
     public void setId_setsId() {
         // given
-        Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
+        Recipe recipe = new Recipe(1, "recipe", new ArrayList<>(), new ArrayList<>(), 1, "image");
 
         // when
         recipe.setId(10);
@@ -45,7 +44,7 @@ public class RecipeTests {
     @Test
     public void setName_setsName() {
         // given
-        Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
+        Recipe recipe = new Recipe(1, "recipe", new ArrayList<>(), new ArrayList<>(), 1, "image");
 
         // when
         recipe.setName("changed name");
@@ -57,7 +56,7 @@ public class RecipeTests {
     @Test
     public void setIngredients_setsIngredients() {
         // given
-        Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
+        Recipe recipe = new Recipe(1, "recipe", new ArrayList<>(), new ArrayList<>(), 1, "image");
 
         // when
         ArrayList<Ingredient> changedIngredients = new ArrayList<>();
@@ -72,7 +71,7 @@ public class RecipeTests {
     @Test
     public void setSteps_setsSteps() {
         // given
-        Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
+        Recipe recipe = new Recipe(1, "recipe", new ArrayList<>(), new ArrayList<>(), 1, "image");
 
         // when
         ArrayList<Step> changedSteps = new ArrayList<>();
@@ -87,7 +86,7 @@ public class RecipeTests {
     @Test
     public void setServings_setsServings() {
         // given
-        Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
+        Recipe recipe = new Recipe(1, "recipe", new ArrayList<>(), new ArrayList<>(), 1, "image");
 
         // when
         recipe.setServings(10);
@@ -99,7 +98,7 @@ public class RecipeTests {
     @Test
     public void setImage_setsImage() {
         // given
-        Recipe recipe = new Recipe(1, "recipe", new ArrayList<Ingredient>(), new ArrayList<Step>(), 1, "image");
+        Recipe recipe = new Recipe(1, "recipe", new ArrayList<>(), new ArrayList<>(), 1, "image");
 
         // when
         recipe.setImage("changed image");

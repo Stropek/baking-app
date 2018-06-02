@@ -39,7 +39,7 @@ public class RecipesListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipes_list);
+        setContentView(R.layout.recipes_list_activity);
 
         ButterKnife.bind(this);
 

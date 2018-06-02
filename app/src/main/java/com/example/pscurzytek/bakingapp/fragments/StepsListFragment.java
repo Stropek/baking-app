@@ -66,7 +66,7 @@ public class StepsListFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_steps_list, container, false);
+        View view = inflater.inflate(R.layout.steps_list_fragment, container, false);
         ButterKnife.bind(this, view);
 
         StringBuilder ingredientsText = new StringBuilder("Ingredients:");
