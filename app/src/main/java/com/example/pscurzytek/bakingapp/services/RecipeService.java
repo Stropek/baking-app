@@ -15,6 +15,6 @@ public class RecipeService {
         String recipesUrl = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
         JSONArray array = KHttp.get(recipesUrl).getJsonArray();
 
-        return JsonConverter.convertListTo(array, Recipe.class);
+        return JsonConverter.convertArrayToType(array, Recipe.class);
     }
 }

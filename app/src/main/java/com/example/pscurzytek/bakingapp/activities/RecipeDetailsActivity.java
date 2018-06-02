@@ -5,18 +5,28 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.CheckBox;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.fragments.StepDetailsFragment;
 import com.example.pscurzytek.bakingapp.fragments.StepsListFragment;
+import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.models.Step;
+import com.example.pscurzytek.bakingapp.widgets.WidgetDataProvider;
 
 public class RecipeDetailsActivity extends AppCompatActivity
     implements StepsListFragment.OnStepSelectedListener {
 
+    private Recipe recipe;
+
     private StepsListFragment stepsListFragment;
     private StepDetailsFragment stepDetailsFragment;
+
+    // TODO: inject with Dagger for testing
+    private WidgetDataProvider widgetDataProvider;
 
     private boolean isBigScreen;
 
@@ -26,9 +36,11 @@ public class RecipeDetailsActivity extends AppCompatActivity
         setContentView(R.layout.recipe_details_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        widgetDataProvider = new WidgetDataProvider(getApplication());
         isBigScreen = findViewById(R.id.step_details) != null;
 
         if (savedInstanceState == null) {
+            recipe = getIntent().getExtras().getParcelable(Constants.BundleKeys.RecipeDetails);
             loadStepsListFragment();
             if (isBigScreen) {
                 loadStepDetailsFragment();
@@ -43,6 +55,38 @@ public class RecipeDetailsActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
 
         // TODO: persist state
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.recipe_details_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toggle_widget_recipe:
+                widgetDataProvider.toggleRecipe(recipe);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onStepSelected(Step step) {
+        Log.d("TAG", "load step data to recipe details");
+
+        if (isBigScreen) {
+            Log.d("TAG", "load step data to recipe details fragment");
+        }
+    }
+
+    @Override
+    public boolean isBigScreen() {
+        return isBigScreen;
     }
 
     private void loadStepsListFragment() {
@@ -69,8 +113,8 @@ public class RecipeDetailsActivity extends AppCompatActivity
         StepsListFragment fragment = new StepsListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(Constants.BundleKeys.IngredientsList, getIntent().getParcelableArrayListExtra(Constants.BundleKeys.IngredientsList));
-        bundle.putParcelableArrayList(Constants.BundleKeys.StepsList, getIntent().getParcelableArrayListExtra(Constants.BundleKeys.StepsList));
+        bundle.putParcelableArrayList(Constants.BundleKeys.IngredientsList, recipe.getIngredients());
+        bundle.putParcelableArrayList(Constants.BundleKeys.StepsList, recipe.getSteps());
         fragment.setArguments(bundle);
 
         return fragment;
@@ -84,19 +128,5 @@ public class RecipeDetailsActivity extends AppCompatActivity
         fragment.setArguments(bundle);
 
         return fragment;
-    }
-
-    @Override
-    public void onStepSelected(Step step) {
-        Log.d("TAG", "load step data to recipe details");
-
-        if (isBigScreen) {
-            Log.d("TAG", "load step data to recipe details fragment");
-        }
-    }
-
-    @Override
-    public boolean isBigScreen() {
-        return isBigScreen;
     }
 }

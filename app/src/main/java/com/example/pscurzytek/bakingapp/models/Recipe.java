@@ -2,33 +2,25 @@ package com.example.pscurzytek.bakingapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Recipe implements Parcelable {
+public class Recipe extends RecipeBase
+        implements Parcelable {
 
-    private int id;
-    private String name;
-    private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
     private int servings;
     private String image;
 
     public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, int servings, String image) {
-        this.id = id;
-        this.name = name;
-        this.ingredients = ingredients;
+        super(id, name, ingredients);
         this.steps = steps;
         this.servings = servings;
         this.image = image;
     }
 
     private Recipe(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        super(in);
         steps = in.createTypedArrayList(Step.CREATOR);
         servings = in.readInt();
         image = in.readString();
@@ -54,36 +46,10 @@ public class Recipe implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeTypedList(ingredients);
+        super.writeToParcel(dest, flags);
         dest.writeTypedList(steps);
         dest.writeInt(servings);
         dest.writeString(image);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int _id) {
-        this.id = _id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String _name) {
-        this.name = _name;
-    }
-
-    public ArrayList<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(ArrayList<Ingredient> _ingredients) {
-        this.ingredients = _ingredients;
     }
 
     public ArrayList<Step> getSteps() {

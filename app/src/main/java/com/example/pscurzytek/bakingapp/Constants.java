@@ -12,7 +12,8 @@ public class Constants {
         public final static String PlayerPosition = "player_position";
     }
 
-    public static class StateKeys {
-        public final static String Step = "step_state";
+    public static class SharedPreferences {
+        public static String Name = "widget_shared_preferences";
+        public static String Recipes = "recipes_key";
     }
 }

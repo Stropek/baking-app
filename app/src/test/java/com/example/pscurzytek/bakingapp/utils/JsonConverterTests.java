@@ -2,15 +2,16 @@ package com.example.pscurzytek.bakingapp.utils;
 
 import com.example.pscurzytek.bakingapp.MockData;
 import com.example.pscurzytek.bakingapp.models.Recipe;
-import com.example.pscurzytek.bakingapp.utils.JsonConverter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
 public class JsonConverterTests {
@@ -18,7 +19,7 @@ public class JsonConverterTests {
     @Test
     public void convertToRecipe_nullJsonObject_returnsNull() {
         // when
-        Recipe result = JsonConverter.convertTo(null, Recipe.class);
+        Recipe result = JsonConverter.convertToType(null, Recipe.class);
 
         // then
         assertEquals(null, result);
@@ -31,7 +32,7 @@ public class JsonConverterTests {
         JSONObject jsonObject = new JSONObject(json);
 
         // when
-        Recipe result = JsonConverter.convertTo(jsonObject, Recipe.class);
+        Recipe result = JsonConverter.convertToType(jsonObject, Recipe.class);
 
         // then
         assertEquals(1, result.getId());
@@ -45,7 +46,7 @@ public class JsonConverterTests {
     @Test
     public void convertToRecipes_nullJsonObject_returnsNull() {
         // when
-        List<Recipe> result = JsonConverter.convertListTo(null, Recipe.class);
+        List<Recipe> result = JsonConverter.convertArrayToType(null, Recipe.class);
 
         // then
         assertEquals(null, result);
@@ -58,11 +59,25 @@ public class JsonConverterTests {
         JSONArray jsonObject = new JSONArray(json);
 
         // when
-        List<Recipe> result = JsonConverter.convertListTo(jsonObject, Recipe.class);
+        List<Recipe> result = JsonConverter.convertArrayToType(jsonObject, Recipe.class);
 
         // then
         assertEquals(2, result.size());
         assertEquals("recipe 1", result.get(0).getName());
         assertEquals("recipe 2", result.get(1).getName());
+    }
+
+    @Test
+    public void convertToJson_recipeObject_returnsString() {
+        // given
+        Recipe recipe = new Recipe(1, "recipe", new ArrayList<>(), new ArrayList<>(), 0, "image");
+
+        // when
+        String result = JsonConverter.convertToJson(recipe);
+
+        // then
+        assertThat(result, containsString("\"id\":1"));
+        assertThat(result, containsString("\"name\":\"recipe\""));
+        assertThat(result, containsString("\"image\":\"image\""));
     }
 }
