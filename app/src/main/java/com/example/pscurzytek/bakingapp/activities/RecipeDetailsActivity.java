@@ -7,20 +7,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.fragments.StepDetailsFragment;
 import com.example.pscurzytek.bakingapp.fragments.StepsListFragment;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.models.Step;
 import com.example.pscurzytek.bakingapp.widgets.WidgetDataProvider;
 
 public class RecipeDetailsActivity extends AppCompatActivity
-    implements StepsListFragment.OnStepSelectedListener {
+    implements OnStepSelectedListener {
 
     private Recipe recipe;
 
@@ -47,7 +46,7 @@ public class RecipeDetailsActivity extends AppCompatActivity
                 recipe = extras.getParcelable(Constants.BundleKeys.RecipeDetails);
                 loadStepsListFragment();
                 if (isBigScreen) {
-                    loadStepDetailsFragment();
+                    loadStepDetailsFragment(null);
                 }
             }
         } else {
@@ -92,10 +91,8 @@ public class RecipeDetailsActivity extends AppCompatActivity
 
     @Override
     public void onStepSelected(Step step) {
-        Log.d("TAG", "load step data to recipe details");
-
         if (isBigScreen) {
-            Log.d("TAG", "load step data to recipe details fragment");
+            loadStepDetailsFragment(step);
         }
     }
 
@@ -114,8 +111,8 @@ public class RecipeDetailsActivity extends AppCompatActivity
         invalidateOptionsMenu();
     }
 
-    private void loadStepDetailsFragment() {
-        stepDetailsFragment = getStepDetailsFragment();
+    private void loadStepDetailsFragment(Step step) {
+        stepDetailsFragment = getStepDetailsFragment(step);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         fragmentTransaction.replace(R.id.step_details, stepDetailsFragment);
@@ -135,11 +132,15 @@ public class RecipeDetailsActivity extends AppCompatActivity
         return fragment;
     }
 
-    public StepDetailsFragment getStepDetailsFragment() {
+    public StepDetailsFragment getStepDetailsFragment(Step step) {
+        if (step == null) {
+            step = recipe.getSteps().get(0);
+        }
+
         StepDetailsFragment fragment = new StepDetailsFragment();
 
         Bundle bundle = new Bundle();
-        // TODO: pass any arguments that fragment needs
+        bundle.putParcelable(Constants.BundleKeys.StepDetails, step);
         fragment.setArguments(bundle);
 
         return fragment;

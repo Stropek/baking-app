@@ -45,7 +45,9 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
         if (steps.size() >= position - 1) {
             Step step = steps.get(position);
 
-            holder.stepNumberTextView.setText(String.format("%s.", position + 1));
+            if (position > 0) {
+                holder.stepNumberTextView.setText(String.format("%s.", position));
+            }
             holder.shortDescriptionTextView.setText(step.getShortDescription());
 
             holder.itemView.setOnClickListener(v -> {

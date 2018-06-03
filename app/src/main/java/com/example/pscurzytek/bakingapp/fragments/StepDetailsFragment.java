@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Step;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -55,6 +56,8 @@ public class StepDetailsFragment extends Fragment
     private int startWindow;
     private long startPosition;
 
+    private OnStepSelectedListener stepSelectedListener;
+
     @BindView(R.id.media_playerView) PlayerView mediaPlayerView;
     @BindView(R.id.step_instructions_textView) TextView instructionsTextView;
     @BindView(R.id.previous_button) Button previousButton;
@@ -83,6 +86,16 @@ public class StepDetailsFragment extends Fragment
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            stepSelectedListener = (OnStepSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnStepSelectedListener");
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         updateStartPosition();
         outState.putBoolean(Constants.BundleKeys.PlayerAutoPlay, startAutoPlay);
@@ -106,28 +119,26 @@ public class StepDetailsFragment extends Fragment
 
         View decorView = getActivity().getWindow().getDecorView();
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mediaPlayerView.getLayoutParams();
-        switch (getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
-                params.setMargins(0,0,0,0);
-                instructionsTextView.setVisibility(View.GONE);
-                previousButton.setVisibility(View.GONE);
-                nextButton.setVisibility(View.GONE);
-                ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE);
-                break;
-            case Configuration.ORIENTATION_PORTRAIT:
-            case Configuration.ORIENTATION_UNDEFINED:
-            default:
-                int standardMargin = (int) getResources().getDimension(R.dimen.standard_margin);
-                params.height = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT;
-                params.setMargins(standardMargin, standardMargin, standardMargin, standardMargin);
-                instructionsTextView.setVisibility(View.VISIBLE);
-                previousButton.setVisibility(View.VISIBLE);
-                nextButton.setVisibility(View.VISIBLE);
-                ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-                break;
+
+        if (!stepSelectedListener.isBigScreen()
+                && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            params.setMargins(0,0,0,0);
+            instructionsTextView.setVisibility(View.GONE);
+            previousButton.setVisibility(View.GONE);
+            nextButton.setVisibility(View.GONE);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        } else {
+            int standardMargin = (int) getResources().getDimension(R.dimen.standard_margin);
+            params.height = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT;
+            params.setMargins(standardMargin, standardMargin, standardMargin, standardMargin);
+            instructionsTextView.setVisibility(View.VISIBLE);
+            previousButton.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         }
+
         mediaPlayerView.setLayoutParams(params);
         mediaPlayerView.setPlayer(player);
         return view;

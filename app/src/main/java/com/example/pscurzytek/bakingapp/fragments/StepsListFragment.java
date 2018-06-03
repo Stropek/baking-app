@@ -18,6 +18,7 @@ import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.activities.StepDetailsActivity;
 import com.example.pscurzytek.bakingapp.adapters.StepRecyclerAdapter;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Ingredient;
 import com.example.pscurzytek.bakingapp.models.Step;
 
@@ -38,7 +39,7 @@ public class StepsListFragment extends Fragment
     private ArrayList<Step> steps;
 
     private StepRecyclerAdapter stepRecyclerAdapter;
-    private StepsListFragment.OnStepSelectedListener stepSelectedListener;
+    private OnStepSelectedListener stepSelectedListener;
 
     @BindView(R.id.ingredients_textView) TextView ingredientsTextView;
     @BindView(R.id.steps_recyclerView) RecyclerView stepsRecyclerView;
@@ -130,12 +131,5 @@ public class StepsListFragment extends Fragment
         } else {
 //            currentStep = savedInstanceState.getParcelable(Constants.StateKeys.Step);
         }
-    }
-
-    public interface OnStepSelectedListener {
-
-        void onStepSelected(Step step);
-
-        boolean isBigScreen();
     }
 }
