@@ -66,7 +66,7 @@ public class RecipeDetailsActivity extends AppCompatActivity
         CheckBox checkBox = (CheckBox) menu.findItem(R.id.toggle_widget_recipe).getActionView();
         checkBox.setChecked(widgetDataProvider.isPersisted(recipe));
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            widgetDataProvider.toggleRecipe(recipe);
+            widgetDataProvider.toggleRecipe(this, recipe);
         });
 
         invalidateOptionsMenu();
