@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.example.pscurzytek.bakingapp.Constants;
@@ -21,27 +22,30 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, ArrayList<Recipe> recipes) {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_widget);
-        Intent intent = null;
+        Intent intent;
 
         if (recipes != null && recipes.size() > 0) {
-            Recipe recipe = recipes.get(0);
+            views.setViewVisibility(R.id.recipe_name_textView, View.VISIBLE);
+            views.setViewVisibility(R.id.ingredients_listView, View.VISIBLE);
 
-            StringBuilder ingredientsText = new StringBuilder("Ingredients:");
-            for (Ingredient ingredient: recipe.getIngredients()) {
-                ingredientsText.append(String.format("\n- %s", ingredient));
-            }
+            Recipe recipe = recipes.get(0);
 
             views.setTextViewText(R.id.recipe_name_textView, recipe.getName());
 
-//            views.setRemoteAdapter(appWidgetId, R.id.ingredients_listView);
-            views.setTextViewText(R.id.ingredients_textView, ingredientsText.toString());
+            Intent remoteAdapterIntent = new Intent(context, IngredientsRemoteViewsService.class);
+
+            ArrayList<String> ingredients = new ArrayList<>();
+            for (Ingredient ingredient: recipe.getIngredients()) {
+                ingredients.add(ingredient.toString());
+            }
+            remoteAdapterIntent.putStringArrayListExtra(Constants.BundleKeys.IngredientsList, ingredients);
+            views.setRemoteAdapter(R.id.ingredients_listView, remoteAdapterIntent);
 
             intent = new Intent(context, RecipeDetailsActivity.class);
             intent.putExtra(Constants.BundleKeys.RecipeDetails, recipe);
         } else {
-
-            views.setTextViewText(R.id.recipe_name_textView, null);
-            views.setTextViewText(R.id.ingredients_textView, null);
+            views.setViewVisibility(R.id.recipe_name_textView, View.GONE);
+            views.setViewVisibility(R.id.ingredients_listView, View.GONE);
 
             intent = new Intent(context, RecipesListActivity.class);
         }
@@ -61,6 +65,6 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        IngredientWidgetService.startActionUpdateRecipesWidgets(context);
+        IngredientsIntentService.startActionUpdateRecipesWidgets(context);
     }
 }

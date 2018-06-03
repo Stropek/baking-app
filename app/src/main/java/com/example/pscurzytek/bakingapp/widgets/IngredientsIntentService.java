@@ -11,12 +11,12 @@ import com.example.pscurzytek.bakingapp.models.Recipe;
 
 import java.util.ArrayList;
 
-public class IngredientWidgetService extends IntentService {
+public class IngredientsIntentService extends IntentService {
 
     public static String ACTION_UPDATE_RECIPES_WIDGETS = "com.example.pscurzytek.bakingapp.update_recipes_widgets";
 
-    public IngredientWidgetService() {
-        super(IngredientWidgetService.class.getName());
+    public IngredientsIntentService() {
+        super(IngredientsIntentService.class.getName());
     }
 
     @Override
@@ -30,7 +30,7 @@ public class IngredientWidgetService extends IntentService {
     }
 
     public static void startActionUpdateRecipesWidgets(Context context) {
-        Intent intent = new Intent(context, IngredientWidgetService.class);
+        Intent intent = new Intent(context, IngredientsIntentService.class);
         intent.setAction(ACTION_UPDATE_RECIPES_WIDGETS);
         context.startService(intent);
     }

@@ -37,8 +37,6 @@ public class RecipeDetailsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_details_activity);
 
-
-
         widgetDataProvider = new WidgetDataProvider(getApplication());
         isBigScreen = findViewById(R.id.step_details) != null;
 

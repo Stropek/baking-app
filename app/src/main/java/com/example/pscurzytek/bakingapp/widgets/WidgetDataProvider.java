@@ -3,7 +3,6 @@ package com.example.pscurzytek.bakingapp.widgets;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.pscurzytek.bakingapp.Constants;
@@ -61,7 +60,7 @@ public class WidgetDataProvider {
         editor.remove(Constants.SharedPreferences.Recipes).apply();
         editor.putStringSet(Constants.SharedPreferences.Recipes, recipesSet).apply();
 
-        IngredientWidgetService.startActionUpdateRecipesWidgets(context);
+        IngredientsIntentService.startActionUpdateRecipesWidgets(context);
     }
 
     public boolean isPersisted(Recipe recipe) {
