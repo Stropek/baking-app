@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.pscurzytek.bakingapp.Constants;
-import com.example.pscurzytek.bakingapp.models.RecipeBase;
+import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.utils.JsonConverter;
 
 import java.util.HashSet;
@@ -19,7 +19,7 @@ public class WidgetDataProvider {
         sharedPreferences = app.getSharedPreferences(Constants.SharedPreferences.Name, Context.MODE_PRIVATE);
     }
 
-    public void toggleRecipe(RecipeBase recipe) {
+    public void toggleRecipe(Recipe recipe) {
         Set<String> recipes = sharedPreferences.getStringSet(Constants.SharedPreferences.Recipes, null);
         String recipeJson = JsonConverter.convertToJson(recipe);
 
@@ -36,5 +36,10 @@ public class WidgetDataProvider {
         sharedPreferences.edit()
                 .putStringSet(Constants.SharedPreferences.Recipes, recipes)
                 .apply();
+    }
+
+    public boolean isPersisted(Recipe recipe) {
+        Set<String> recipes = sharedPreferences.getStringSet(Constants.SharedPreferences.Recipes, null);
+        return recipes != null && recipes.contains(JsonConverter.convertToJson(recipe));
     }
 }

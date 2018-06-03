@@ -7,6 +7,6 @@
         android:title="@string/toggle_recipe"
         android:checkable="true"
         app:actionViewClass="android.widget.CheckBox"
-        app:showAsAction="always|withText" />
+        app:showAsAction="always" />
 
 </menu>

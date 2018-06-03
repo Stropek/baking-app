@@ -5,22 +5,28 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Recipe extends RecipeBase
-        implements Parcelable {
+public class Recipe implements Parcelable {
 
+    private int id;
+    private String name;
+    private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
     private int servings;
     private String image;
 
     public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, int servings, String image) {
-        super(id, name, ingredients);
+        this.id = id;
+        this.name = name;
+        this.ingredients = ingredients;
         this.steps = steps;
         this.servings = servings;
         this.image = image;
     }
 
     private Recipe(Parcel in) {
-        super(in);
+        id = in.readInt();
+        name = in.readString();
+        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
         steps = in.createTypedArrayList(Step.CREATOR);
         servings = in.readInt();
         image = in.readString();
@@ -46,10 +52,36 @@ public class Recipe extends RecipeBase
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeTypedList(ingredients);
         dest.writeTypedList(steps);
         dest.writeInt(servings);
         dest.writeString(image);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int _id) {
+        this.id = _id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String _name) {
+        this.name = _name;
+    }
+
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> _ingredients) {
+        this.ingredients = _ingredients;
     }
 
     public ArrayList<Step> getSteps() {

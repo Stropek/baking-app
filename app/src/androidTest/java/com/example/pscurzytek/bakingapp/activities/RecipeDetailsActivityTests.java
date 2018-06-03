@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.models.Ingredient;
+import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.models.Step;
 import com.example.pscurzytek.bakingapp.utils.ObjectFactory;
 
@@ -35,10 +36,10 @@ public class RecipeDetailsActivityTests {
         // given
         ArrayList<Ingredient> ingredients = ObjectFactory.createIngredients(5);
         ArrayList<Step> steps = ObjectFactory.createSteps(5);
+        Recipe recipe = new Recipe(1, "recipe", ingredients, steps, 1, "image");
 
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(Constants.BundleKeys.IngredientsList, ingredients);
-        intent.putParcelableArrayListExtra(Constants.BundleKeys.StepsList, steps);
+        intent.putExtra(Constants.BundleKeys.RecipeDetails, recipe);
 
         // when
         testRule.launchActivity(intent);

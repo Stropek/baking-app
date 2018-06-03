@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
@@ -61,18 +62,15 @@ public class RecipeDetailsActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.recipe_details_menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.toggle_widget_recipe:
-                widgetDataProvider.toggleRecipe(recipe);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        CheckBox checkBox = (CheckBox) menu.findItem(R.id.toggle_widget_recipe).getActionView();
+        checkBox.setChecked(widgetDataProvider.isPersisted(recipe));
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            widgetDataProvider.toggleRecipe(recipe);
+        });
+
+        invalidateOptionsMenu();
+        return true;
     }
 
     @Override
