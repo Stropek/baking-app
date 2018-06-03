@@ -10,6 +10,7 @@ public class Constants {
         public final static String PlayerAutoPlay = "player_auto_play";
         public final static String PlayerWindow= "player_window";
         public final static String PlayerPosition = "player_position";
+        public final static String CallingActivity = "calling_activity";
     }
 
     public static class SharedPreferences {

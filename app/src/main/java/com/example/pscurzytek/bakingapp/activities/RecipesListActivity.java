@@ -53,6 +53,7 @@ public class RecipesListActivity extends AppCompatActivity
             Recipe recipe = (Recipe) recipesGridView.getItemAtPosition(position);
 
             Intent intent = new Intent(view.getContext(), RecipeDetailsActivity.class);
+            intent.putExtra(Constants.BundleKeys.CallingActivity, RecipesListActivity.class.getName());
             intent.putExtra(Constants.BundleKeys.RecipeDetails, recipe);
 
             startActivity(intent);

@@ -3,6 +3,7 @@ package com.example.pscurzytek.bakingapp.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -35,19 +36,37 @@ public class RecipeDetailsActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_details_activity);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         widgetDataProvider = new WidgetDataProvider(getApplication());
         isBigScreen = findViewById(R.id.step_details) != null;
 
         if (savedInstanceState == null) {
-            recipe = getIntent().getExtras().getParcelable(Constants.BundleKeys.RecipeDetails);
-            loadStepsListFragment();
-            if (isBigScreen) {
-                loadStepDetailsFragment();
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null) {
+                recipe = extras.getParcelable(Constants.BundleKeys.RecipeDetails);
+                loadStepsListFragment();
+                if (isBigScreen) {
+                    loadStepDetailsFragment();
+                }
             }
         } else {
             // TODO: load persisted state
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Bundle extras = getIntent().getExtras();
+        ActionBar supportActionBar = getSupportActionBar();
+
+        if (supportActionBar != null) {
+            boolean isEnabled = extras != null && extras.getString(Constants.BundleKeys.CallingActivity) != null;
+            supportActionBar.setDisplayHomeAsUpEnabled(isEnabled);
         }
     }
 
