@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
+import com.example.pscurzytek.bakingapp.activities.RecipeDetailsActivity;
 import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Step;
 import com.google.android.exoplayer2.C;
@@ -52,6 +53,8 @@ public class StepDetailsFragment extends Fragment
     private Context context;
     private Step step;
     private SimpleExoPlayer player;
+    private boolean isBigScreen = false;
+
     private boolean startAutoPlay;
     private int startWindow;
     private long startPosition;
@@ -89,7 +92,10 @@ public class StepDetailsFragment extends Fragment
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            stepSelectedListener = (OnStepSelectedListener) context;
+            if (context.getClass().getName().equals(RecipeDetailsActivity.class.getName())) {
+                stepSelectedListener = (OnStepSelectedListener) context;
+                isBigScreen = stepSelectedListener.isBigScreen();
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnStepSelectedListener");
         }
@@ -120,8 +126,7 @@ public class StepDetailsFragment extends Fragment
         View decorView = getActivity().getWindow().getDecorView();
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mediaPlayerView.getLayoutParams();
 
-        if (!stepSelectedListener.isBigScreen()
-                && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (!isBigScreen && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
             params.setMargins(0,0,0,0);
             instructionsTextView.setVisibility(View.GONE);

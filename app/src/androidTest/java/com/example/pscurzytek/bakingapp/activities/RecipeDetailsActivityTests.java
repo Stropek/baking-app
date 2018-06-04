@@ -46,6 +46,6 @@ public class RecipeDetailsActivityTests {
 
         // then
         onView(withId(R.id.ingredients_textView)).check(matches(withText(containsString("- ingredient 4 - 4.0 measure 4"))));
-        onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("5."))));
+        onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("4."))));
     }
 }
