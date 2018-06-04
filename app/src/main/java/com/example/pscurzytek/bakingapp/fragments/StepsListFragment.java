@@ -37,6 +37,7 @@ public class StepsListFragment extends Fragment
     private Activity activity;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
+    private int currentStepPosition = 0;
 
     private StepRecyclerAdapter stepRecyclerAdapter;
     private OnStepSelectedListener stepSelectedListener;
@@ -49,7 +50,9 @@ public class StepsListFragment extends Fragment
         super.onCreate(savedInstanceState);
         activity = getActivity();
 
-        stepRecyclerAdapter = new StepRecyclerAdapter(activity, steps, this);
+        loadData(savedInstanceState);
+
+        stepRecyclerAdapter = new StepRecyclerAdapter(activity, steps, currentStepPosition, this);
     }
 
     @Override
@@ -68,8 +71,6 @@ public class StepsListFragment extends Fragment
         View view = inflater.inflate(R.layout.steps_list_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        loadStepsList(savedInstanceState);
-
         StringBuilder ingredientsText = new StringBuilder("Ingredients:");
         for (Ingredient ingredient: ingredients) {
             ingredientsText.append(String.format("\n- %s", ingredient));
@@ -85,14 +86,16 @@ public class StepsListFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loadStepsList(savedInstanceState);
+        loadData(savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-//        outState.putParcelable(Constants.StateKeys.Step, currentStep);
+        outState.putParcelableArrayList(Constants.BundleKeys.IngredientsList, ingredients);
+        outState.putParcelableArrayList(Constants.BundleKeys.StepsList, steps);
+        outState.putInt(Constants.BundleKeys.IngredientsList, currentStepPosition);
     }
 
     @Override
@@ -120,16 +123,18 @@ public class StepsListFragment extends Fragment
         }
     }
 
-    private void loadStepsList(Bundle savedInstanceState) {
+    private void loadData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle arguments = getArguments();
             if (arguments != null) {
                 ingredients = arguments.getParcelableArrayList(Constants.BundleKeys.IngredientsList);
                 steps = arguments.getParcelableArrayList(Constants.BundleKeys.StepsList);
-//                currentStep = arguments.getParcelable(Constants.BundleKeys.StepDetails);
+                currentStepPosition = arguments.getInt(Constants.BundleKeys.StepPosition);
             }
         } else {
-//            currentStep = savedInstanceState.getParcelable(Constants.StateKeys.Step);
+            ingredients = savedInstanceState.getParcelableArrayList(Constants.BundleKeys.IngredientsList);
+            steps = savedInstanceState.getParcelableArrayList(Constants.BundleKeys.StepsList);
+            currentStepPosition = savedInstanceState.getInt(Constants.BundleKeys.StepPosition);
         }
     }
 }

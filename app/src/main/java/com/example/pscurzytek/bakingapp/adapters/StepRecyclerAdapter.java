@@ -18,15 +18,16 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
 
     private final Context context;
     private List<Step> steps;
-    private View selectedItem;
-    private int selectedItemPosition;
+    private View currentItem;
+    private int currentStepPosition;
 
     private OnStepSelectedListener stepSelectedListener;
 
-    public StepRecyclerAdapter(Context context, ArrayList<Step> steps, OnStepSelectedListener stepSelectedListener) {
+    public StepRecyclerAdapter(Context context, ArrayList<Step> steps, int currentStepPosition, OnStepSelectedListener stepSelectedListener) {
         this.context = context;
         this.steps = steps;
         this.stepSelectedListener = stepSelectedListener;
+        this.currentStepPosition = currentStepPosition;
     }
 
     @NonNull
@@ -47,8 +48,8 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
 
             if (position == 0) {
                 holder.itemView.setSelected(true);
-                selectedItem = holder.itemView;
-                selectedItemPosition = 0;
+                currentItem = holder.itemView;
+                currentStepPosition = 0;
             }
             else {
                 holder.stepNumberTextView.setText(String.format("%s.", position));
@@ -57,11 +58,11 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
 
             holder.itemView.setOnClickListener(v -> {
                 int holderPosition = holder.getAdapterPosition();
-                if (selectedItemPosition != holderPosition) {
+                if (currentStepPosition != holderPosition) {
                     holder.itemView.setSelected(true);
-                    selectedItem.setSelected(false);
-                    selectedItem = holder.itemView;
-                    selectedItemPosition = holderPosition;
+                    currentItem.setSelected(false);
+                    currentItem = holder.itemView;
+                    currentStepPosition = holderPosition;
                 }
                 stepSelectedListener.loadDetails(step);
             });
