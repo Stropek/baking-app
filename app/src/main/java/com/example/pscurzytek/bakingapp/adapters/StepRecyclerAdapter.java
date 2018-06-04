@@ -47,7 +47,9 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
             Step step = steps.get(position);
 
             if (position == currentStepPosition) {
-                holder.itemView.setSelected(true);
+                if (stepSelectedListener.isBigScreen()) {
+                    holder.itemView.setSelected(true);
+                }
                 currentItem = holder.itemView;
                 currentStepPosition = 0;
             }
@@ -59,8 +61,10 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
             holder.itemView.setOnClickListener(v -> {
                 int holderPosition = holder.getAdapterPosition();
                 if (currentStepPosition != holderPosition) {
-                    holder.itemView.setSelected(true);
-                    currentItem.setSelected(false);
+                    if (stepSelectedListener.isBigScreen()) {
+                        holder.itemView.setSelected(true);
+                        currentItem.setSelected(false);
+                    }
                     currentItem = holder.itemView;
                     currentStepPosition = holderPosition;
                 }
@@ -93,5 +97,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
     public interface OnStepSelectedListener {
 
         void loadDetails(Step step, int currentStepPosition);
+
+        boolean isBigScreen();
     }
 }

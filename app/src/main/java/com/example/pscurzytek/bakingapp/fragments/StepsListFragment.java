@@ -114,6 +114,11 @@ public class StepsListFragment extends Fragment
     }
 
     @Override
+    public boolean isBigScreen() {
+        return stepSelectedListener.isBigScreen();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
