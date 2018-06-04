@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import static android.app.Activity.RESULT_OK;
 
 public class StepsListFragment extends Fragment
-    implements StepRecyclerAdapter.OnStepSelectedListener {
+    implements OnStepSelectedListener {
 
     private final int STEP_DETAILS_REQUEST = 1;
 
@@ -99,10 +99,10 @@ public class StepsListFragment extends Fragment
     }
 
     @Override
-    public void loadDetails(Step step, int currentStepPosition) {
+    public void onStepSelected(Step step, int currentStepPosition) {
 
         if (stepSelectedListener.isBigScreen()) {
-            stepSelectedListener.onStepSelected(step);
+            stepSelectedListener.onStepSelected(step, 0);
             this.currentStepPosition = currentStepPosition;
         } else {
             Intent intent = new Intent(getContext(), StepDetailsActivity.class);

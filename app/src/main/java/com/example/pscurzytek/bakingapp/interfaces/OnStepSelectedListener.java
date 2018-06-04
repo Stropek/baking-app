@@ -4,7 +4,7 @@ import com.example.pscurzytek.bakingapp.models.Step;
 
 public interface OnStepSelectedListener {
 
-    void onStepSelected(Step step);
+    void onStepSelected(Step step, int currentStepPosition);
 
     boolean isBigScreen();
 }

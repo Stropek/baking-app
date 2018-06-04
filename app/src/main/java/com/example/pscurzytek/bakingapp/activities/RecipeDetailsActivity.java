@@ -93,7 +93,7 @@ public class RecipeDetailsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStepSelected(Step step) {
+    public void onStepSelected(Step step, int currentStepPosition) {
         if (isBigScreen) {
             loadStepDetailsFragment(step);
         }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pscurzytek.bakingapp.R;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Step;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
                     currentItem = holder.itemView;
                     currentStepPosition = holderPosition;
                 }
-                stepSelectedListener.loadDetails(step, currentStepPosition);
+                stepSelectedListener.onStepSelected(step, currentStepPosition);
             });
         }
     }
@@ -92,12 +93,5 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
             stepNumberTextView = itemView.findViewById(R.id.step_number_textView);
             shortDescriptionTextView = itemView.findViewById(R.id.short_description_textView);
         }
-    }
-
-    public interface OnStepSelectedListener {
-
-        void loadDetails(Step step, int currentStepPosition);
-
-        boolean isBigScreen();
     }
 }
