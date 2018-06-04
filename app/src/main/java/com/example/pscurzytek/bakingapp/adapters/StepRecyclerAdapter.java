@@ -3,14 +3,12 @@ package com.example.pscurzytek.bakingapp.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pscurzytek.bakingapp.R;
-import com.example.pscurzytek.bakingapp.fragments.StepsListFragment;
 import com.example.pscurzytek.bakingapp.models.Step;
 
 import java.util.ArrayList;
@@ -20,6 +18,8 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
 
     private final Context context;
     private List<Step> steps;
+    private View selectedItem;
+    private int selectedItemPosition;
 
     private OnStepSelectedListener stepSelectedListener;
 
@@ -45,14 +45,24 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
         if (steps.size() >= position - 1) {
             Step step = steps.get(position);
 
-            if (position > 0) {
+            if (position == 0) {
+                holder.itemView.setSelected(true);
+                selectedItem = holder.itemView;
+                selectedItemPosition = 0;
+            }
+            else {
                 holder.stepNumberTextView.setText(String.format("%s.", position));
             }
             holder.shortDescriptionTextView.setText(step.getShortDescription());
 
             holder.itemView.setOnClickListener(v -> {
-                // TODO: implement actual action
-                Log.d("TAG", "Recycler view item clicked!");
+                int holderPosition = holder.getAdapterPosition();
+                if (selectedItemPosition != holderPosition) {
+                    holder.itemView.setSelected(true);
+                    selectedItem.setSelected(false);
+                    selectedItem = holder.itemView;
+                    selectedItemPosition = holderPosition;
+                }
                 stepSelectedListener.loadDetails(step);
             });
         }

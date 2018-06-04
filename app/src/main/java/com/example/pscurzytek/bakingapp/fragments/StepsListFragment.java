@@ -49,8 +49,6 @@ public class StepsListFragment extends Fragment
         super.onCreate(savedInstanceState);
         activity = getActivity();
 
-        loadStepsList(savedInstanceState);
-
         stepRecyclerAdapter = new StepRecyclerAdapter(activity, steps, this);
     }
 
@@ -69,6 +67,8 @@ public class StepsListFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.steps_list_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        loadStepsList(savedInstanceState);
 
         StringBuilder ingredientsText = new StringBuilder("Ingredients:");
         for (Ingredient ingredient: ingredients) {
