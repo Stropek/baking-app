@@ -95,14 +95,15 @@ public class StepsListFragment extends Fragment
 
         outState.putParcelableArrayList(Constants.BundleKeys.IngredientsList, ingredients);
         outState.putParcelableArrayList(Constants.BundleKeys.StepsList, steps);
-        outState.putInt(Constants.BundleKeys.IngredientsList, currentStepPosition);
+        outState.putInt(Constants.BundleKeys.StepPosition, currentStepPosition);
     }
 
     @Override
-    public void loadDetails(Step step) {
+    public void loadDetails(Step step, int currentStepPosition) {
 
         if (stepSelectedListener.isBigScreen()) {
             stepSelectedListener.onStepSelected(step);
+            this.currentStepPosition = currentStepPosition;
         } else {
             Intent intent = new Intent(getContext(), StepDetailsActivity.class);
             intent.putExtra(Constants.BundleKeys.StepDetails, step);

@@ -46,12 +46,12 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
         if (steps.size() >= position - 1) {
             Step step = steps.get(position);
 
-            if (position == 0) {
+            if (position == currentStepPosition) {
                 holder.itemView.setSelected(true);
                 currentItem = holder.itemView;
                 currentStepPosition = 0;
             }
-            else {
+            if (position != 0) {
                 holder.stepNumberTextView.setText(String.format("%s.", position));
             }
             holder.shortDescriptionTextView.setText(step.getShortDescription());
@@ -64,7 +64,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
                     currentItem = holder.itemView;
                     currentStepPosition = holderPosition;
                 }
-                stepSelectedListener.loadDetails(step);
+                stepSelectedListener.loadDetails(step, currentStepPosition);
             });
         }
     }
@@ -92,6 +92,6 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
 
     public interface OnStepSelectedListener {
 
-        void loadDetails(Step step);
+        void loadDetails(Step step, int currentStepPosition);
     }
 }
