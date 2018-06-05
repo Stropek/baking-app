@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.activities.RecipeDetailsActivity;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepNavigationListener;
 import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Step;
 import com.google.android.exoplayer2.C;
@@ -62,6 +63,7 @@ public class StepDetailsFragment extends Fragment
     private long startPosition;
 
     private OnStepSelectedListener stepSelectedListener;
+    private OnStepNavigationListener stepNavigationListener;
 
     @BindView(R.id.media_playerView) PlayerView mediaPlayerView;
     @BindView(R.id.step_instructions_textView) TextView instructionsTextView;
@@ -98,6 +100,7 @@ public class StepDetailsFragment extends Fragment
                 stepSelectedListener = (OnStepSelectedListener) context;
                 isBigScreen = stepSelectedListener.isBigScreen();
             }
+            stepNavigationListener = (OnStepNavigationListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnStepSelectedListener");
         }
@@ -202,11 +205,13 @@ public class StepDetailsFragment extends Fragment
     @OnClick(R.id.previous_button) @Optional
     public void onPreviousButtonClicked(Button button) {
         Log.d(TAG, "previousButtonClicked");
+        stepNavigationListener.navigateToStep(step.getId() - 1);
     }
 
     @OnClick(R.id.next_button) @Optional
     public void onNextButtonClicked(Button button) {
         Log.d(TAG, "nextButtonClicked");
+        stepNavigationListener.navigateToStep(step.getId() + 1);
     }
 
     private void initializePlayer(Context context, Step step) {

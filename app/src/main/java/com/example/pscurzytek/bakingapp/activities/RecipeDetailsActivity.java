@@ -1,21 +1,18 @@
 package com.example.pscurzytek.bakingapp.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 import android.widget.CheckBox;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.fragments.StepDetailsFragment;
 import com.example.pscurzytek.bakingapp.fragments.StepsListFragment;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepNavigationListener;
 import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.models.Step;

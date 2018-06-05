@@ -10,14 +10,15 @@ import android.view.MenuItem;
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.fragments.StepDetailsFragment;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepNavigationListener;
 import com.example.pscurzytek.bakingapp.models.Step;
 
 import java.util.ArrayList;
 
-public class StepDetailsActivity extends AppCompatActivity {
+public class StepDetailsActivity extends AppCompatActivity
+    implements OnStepNavigationListener {
 
     private ArrayList<Step> steps;
-    private StepDetailsFragment stepDetailsFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,9 +26,11 @@ public class StepDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.step_details_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        steps = getIntent().getParcelableArrayListExtra(Constants.BundleKeys.StepsList);
         if (savedInstanceState == null) {
-            loadStepDetailsFragment();
+            Intent intent = getIntent();
+            steps = intent.getParcelableArrayListExtra(Constants.BundleKeys.StepsList);
+            Step step = intent.getParcelableExtra(Constants.BundleKeys.StepDetails);
+            loadStepDetailsFragment(step);
         } else {
             // TODO: load persisted state
         }
@@ -49,8 +52,19 @@ public class StepDetailsActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadStepDetailsFragment() {
-        stepDetailsFragment = getStepDetailsFragment();
+    @Override
+    public void navigateToStep(int stepId) {
+        if (stepId >= steps.size()) {
+            stepId = 0;
+        } else if (stepId < 0) {
+            stepId = steps.size() - 1;
+        }
+
+        loadStepDetailsFragment(steps.get(stepId));
+    }
+
+    private void loadStepDetailsFragment(Step step) {
+        StepDetailsFragment stepDetailsFragment = getStepDetailsFragment(step);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         fragmentTransaction.replace(R.id.step_details, stepDetailsFragment);
@@ -59,9 +73,12 @@ public class StepDetailsActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-    private StepDetailsFragment getStepDetailsFragment() {
+    private StepDetailsFragment getStepDetailsFragment(Step step) {
         StepDetailsFragment fragment = new StepDetailsFragment();
-        fragment.setArguments(getIntent().getExtras());
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.BundleKeys.StepDetails, step);
+        fragment.setArguments(bundle);
         return fragment;
     }
 }
