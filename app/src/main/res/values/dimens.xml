@@ -2,8 +2,9 @@
 <resources>
     <dimen name="image_height">100pt</dimen>
     <dimen name="standard_margin">8dp</dimen>
+    <dimen name="small_text_size">16sp</dimen>
+    <dimen name="medium_small_text_size">16sp</dimen>
     <dimen name="medium_text_size">24sp</dimen>
     <dimen name="large_text_size">32sp</dimen>
     <dimen name="step_number_width">30dp</dimen>
-    <dimen name="small_text_size">16sp</dimen>
 </resources>

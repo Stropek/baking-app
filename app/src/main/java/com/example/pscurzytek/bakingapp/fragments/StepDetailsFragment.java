@@ -44,6 +44,8 @@ import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 
 public class StepDetailsFragment extends Fragment
     implements Player.EventListener {
@@ -63,8 +65,8 @@ public class StepDetailsFragment extends Fragment
 
     @BindView(R.id.media_playerView) PlayerView mediaPlayerView;
     @BindView(R.id.step_instructions_textView) TextView instructionsTextView;
-    @BindView(R.id.previous_button) Button previousButton;
-    @BindView(R.id.next_button) Button nextButton;
+    @BindView(R.id.previous_button) @Nullable Button previousButton;
+    @BindView(R.id.next_button) @Nullable Button nextButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,8 +117,7 @@ public class StepDetailsFragment extends Fragment
         releasePlayer();
     }
 
-    @Nullable
-    @Override
+    @Override @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.step_details_fragment, container, false);
         ButterKnife.bind(this, view);
@@ -130,8 +131,6 @@ public class StepDetailsFragment extends Fragment
             params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
             params.setMargins(0,0,0,0);
             instructionsTextView.setVisibility(View.GONE);
-            previousButton.setVisibility(View.GONE);
-            nextButton.setVisibility(View.GONE);
             ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE);
         } else {
@@ -139,8 +138,6 @@ public class StepDetailsFragment extends Fragment
             params.height = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT;
             params.setMargins(standardMargin, standardMargin, standardMargin, standardMargin);
             instructionsTextView.setVisibility(View.VISIBLE);
-            previousButton.setVisibility(View.VISIBLE);
-            nextButton.setVisibility(View.VISIBLE);
             ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         }
 
@@ -200,6 +197,16 @@ public class StepDetailsFragment extends Fragment
     @Override
     public void onSeekProcessed() {
 
+    }
+
+    @OnClick(R.id.previous_button) @Optional
+    public void onPreviousButtonClicked(Button button) {
+        Log.d(TAG, "previousButtonClicked");
+    }
+
+    @OnClick(R.id.next_button) @Optional
+    public void onNextButtonClicked(Button button) {
+        Log.d(TAG, "nextButtonClicked");
     }
 
     private void initializePlayer(Context context, Step step) {
