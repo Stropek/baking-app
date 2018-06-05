@@ -125,7 +125,7 @@ public class RecipeDetailsActivityTests {
 
         Set<String> recipes = new HashSet<>();
         recipes.add(JsonConverter.convertToJson(recipe));
-        sharedPreferences.edit().putStringSet(Constants.SharedPreferences.Recipes, recipes);
+        sharedPreferences.edit().putStringSet(Constants.SharedPreferences.Recipes, recipes).commit();
 
         testRule.launchActivity(intent);
 
