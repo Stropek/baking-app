@@ -3,6 +3,7 @@ package com.example.pscurzytek.bakingapp.utils;
 import com.example.pscurzytek.bakingapp.models.Ingredient;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.models.Step;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,5 +62,11 @@ public class ObjectFactory {
         String ingredient = String.format("ingredient %s", ingredientNumber);
 
         return new Ingredient(quantity, measure, ingredient);
+    }
+
+    public static String createRecipeString(int id) {
+        Recipe recipe = createRecipe(id);
+        Gson gson = new Gson();
+        return gson.toJson(recipe);
     }
 }

@@ -1,6 +1,5 @@
 package com.example.pscurzytek.bakingapp.widgets;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -20,8 +19,8 @@ public class WidgetDataProvider {
     private String TAG = WidgetDataProvider.class.getName();
     private SharedPreferences sharedPreferences;
 
-    public WidgetDataProvider(Application app) {
-        sharedPreferences = app.getSharedPreferences(Constants.SharedPreferences.Name, Context.MODE_PRIVATE);
+    public WidgetDataProvider(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
     }
 
     public ArrayList<Recipe> getRecipes() {

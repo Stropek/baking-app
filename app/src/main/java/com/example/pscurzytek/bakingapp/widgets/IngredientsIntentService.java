@@ -5,8 +5,10 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
+import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 
 import java.util.ArrayList;
@@ -36,7 +38,8 @@ public class IngredientsIntentService extends IntentService {
     }
 
     private void handleActionUpdateRecipesWidgets() {
-        WidgetDataProvider dataProvider = new WidgetDataProvider(getApplication());
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SharedPreferences.Name, Context.MODE_PRIVATE);
+        WidgetDataProvider dataProvider = new WidgetDataProvider(sharedPreferences);
         ArrayList<Recipe> recipes = dataProvider.getRecipes();
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);

@@ -1,5 +1,7 @@
 package com.example.pscurzytek.bakingapp.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -36,7 +38,8 @@ public class RecipeDetailsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_details_activity);
 
-        widgetDataProvider = new WidgetDataProvider(getApplication());
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SharedPreferences.Name, Context.MODE_PRIVATE);
+        widgetDataProvider = new WidgetDataProvider(sharedPreferences);
         isBigScreen = findViewById(R.id.step_details) != null;
 
         if (savedInstanceState == null) {
