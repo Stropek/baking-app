@@ -1,6 +1,7 @@
 package com.example.pscurzytek.bakingapp.activities;
 
 import android.content.Intent;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -18,8 +19,11 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -47,5 +51,26 @@ public class RecipeDetailsActivityTests {
         // then
         onView(withId(R.id.ingredients_textView)).check(matches(withText(containsString("- ingredient 4 - 4.0 measure 4"))));
         onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("4."))));
+    }
+
+    @Test
+    public void openStepDetailsAndPressHomeButton_displaysRecipeDetails() {
+        // given
+        ArrayList<Ingredient> ingredients = ObjectFactory.createIngredients(5);
+        ArrayList<Step> steps = ObjectFactory.createSteps(5);
+        Recipe recipe = new Recipe(1, "recipe", ingredients, steps, 1, "image");
+
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BundleKeys.RecipeDetails, recipe);
+
+        testRule.launchActivity(intent);
+
+        // when
+        onView(withId(R.id.steps_recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+
+        // then
+        onView(withId(R.id.ingredients_textView)).check(matches(isDisplayed()));
+        onView(withId(R.id.steps_recyclerView)).check(matches(isDisplayed()));
     }
 }
