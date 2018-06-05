@@ -3,6 +3,7 @@ package com.example.pscurzytek.bakingapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -60,8 +61,28 @@ public class RecipeDetailsActivityTests {
         testRule.launchActivity(intent);
 
         // then
-        onView(withId(R.id.ingredients_textView)).check(matches(withText(containsString("- ingredient 4 - 4.0 measure 4"))));
-        onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("4."))));
+        onView(withId(R.id.ingredients_textView)).check(matches(withText(containsString("- ingredient 2 - 2.0 measure 2"))));
+        onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("2."))));
+    }
+
+    @Test
+    public void toggleOrientation_displaysRecipeDetails() {
+        // given
+        ArrayList<Ingredient> ingredients = ObjectFactory.createIngredients(5);
+        ArrayList<Step> steps = ObjectFactory.createSteps(5);
+        Recipe recipe = new Recipe(1, "recipe", ingredients, steps, 1, "image");
+
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BundleKeys.RecipeDetails, recipe);
+
+        testRule.launchActivity(intent);
+
+        // when
+        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        // then
+        onView(withId(R.id.ingredients_textView)).check(matches(withText(containsString("- ingredient 2 - 2.0 measure 2"))));
+        onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("2."))));
     }
 
     @Test
