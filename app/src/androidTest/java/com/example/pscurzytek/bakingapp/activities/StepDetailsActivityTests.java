@@ -7,7 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
-import com.example.pscurzytek.bakingapp.models.Ingredient;
 import com.example.pscurzytek.bakingapp.models.Step;
 import com.example.pscurzytek.bakingapp.utils.ObjectFactory;
 
@@ -18,12 +17,11 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -67,7 +65,47 @@ public class StepDetailsActivityTests {
         // then
         onView(withId(R.id.media_playerView)).check(matches(isDisplayed()));
         onView(withId(R.id.step_instructions_textView)).check(matches(not(isDisplayed())));
-        onView(withId(R.id.previous_button)).check(matches(not(isDisplayed())));
-        onView(withId(R.id.next_button)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void navigateThroughSteps_Next_navigatesBackToFirstStep() {
+        // given
+        ArrayList<Step> steps = ObjectFactory.createSteps(3);
+        Step step = steps.get(0);
+
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BundleKeys.StepDetails, step);
+        intent.putExtra(Constants.BundleKeys.StepsList, steps);
+
+        testRule.launchActivity(intent);
+
+        // when
+        onView(withId(R.id.next_button)).perform(click());
+        onView(withId(R.id.next_button)).perform(click());
+        onView(withId(R.id.next_button)).perform(click());
+
+        // then
+        onView(withId(R.id.step_instructions_textView)).check(matches(withText("desc 0")));
+    }
+
+    @Test
+    public void navigateThroughSteps_Previous_navigatesBackToFirstStep() {
+        // given
+        ArrayList<Step> steps = ObjectFactory.createSteps(3);
+        Step step = steps.get(steps.size() - 1);
+
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BundleKeys.StepDetails, step);
+        intent.putExtra(Constants.BundleKeys.StepsList, steps);
+
+        testRule.launchActivity(intent);
+
+        // when
+        onView(withId(R.id.previous_button)).perform(click());
+        onView(withId(R.id.previous_button)).perform(click());
+        onView(withId(R.id.previous_button)).perform(click());
+
+        // then
+        onView(withId(R.id.step_instructions_textView)).check(matches(withText("desc 2")));
     }
 }
