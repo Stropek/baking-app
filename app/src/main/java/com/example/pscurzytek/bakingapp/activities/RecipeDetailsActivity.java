@@ -14,7 +14,6 @@ import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.fragments.StepDetailsFragment;
 import com.example.pscurzytek.bakingapp.fragments.StepsListFragment;
-import com.example.pscurzytek.bakingapp.interfaces.OnStepNavigationListener;
 import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.models.Step;
