@@ -44,7 +44,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
     public void onBindViewHolder(@NonNull StepRecyclerAdapter.ViewHolder holder, int position) {
         List<Step> steps = this.steps;
 
-        if (steps.size() >= position - 1) {
+        if (steps.size() > position) {
             Step step = steps.get(position);
 
             if (position == currentStepPosition) {
@@ -53,9 +53,16 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<StepRecyclerAdapte
                 }
                 currentItem = holder.itemView;
                 currentStepPosition = 0;
+            } else {
+                if (stepSelectedListener.isBigScreen()) {
+                    holder.itemView.setSelected(false);
+                }
             }
+
             if (position != 0) {
                 holder.stepNumberTextView.setText(String.format("%s.", position));
+            } else {
+                holder.stepNumberTextView.setText("");
             }
             holder.shortDescriptionTextView.setText(step.getShortDescription());
 

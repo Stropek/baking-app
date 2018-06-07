@@ -14,13 +14,14 @@ import com.example.pscurzytek.bakingapp.Constants;
 import com.example.pscurzytek.bakingapp.R;
 import com.example.pscurzytek.bakingapp.fragments.StepDetailsFragment;
 import com.example.pscurzytek.bakingapp.fragments.StepsListFragment;
+import com.example.pscurzytek.bakingapp.interfaces.OnStepNavigationListener;
 import com.example.pscurzytek.bakingapp.interfaces.OnStepSelectedListener;
 import com.example.pscurzytek.bakingapp.models.Recipe;
 import com.example.pscurzytek.bakingapp.models.Step;
 import com.example.pscurzytek.bakingapp.widgets.WidgetDataProvider;
 
 public class RecipeDetailsActivity extends AppCompatActivity
-    implements OnStepSelectedListener {
+    implements OnStepSelectedListener, OnStepNavigationListener {
 
     private Recipe recipe;
 
@@ -29,8 +30,6 @@ public class RecipeDetailsActivity extends AppCompatActivity
 
     private WidgetDataProvider widgetDataProvider;
 
-    private static boolean isBigScreen;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +37,6 @@ public class RecipeDetailsActivity extends AppCompatActivity
 
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SharedPreferences.Name, Context.MODE_PRIVATE);
         widgetDataProvider = new WidgetDataProvider(sharedPreferences);
-        isBigScreen = findViewById(R.id.step_details) != null;
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -46,14 +44,19 @@ public class RecipeDetailsActivity extends AppCompatActivity
             if (extras != null) {
                 recipe = extras.getParcelable(Constants.BundleKeys.RecipeDetails);
                 loadStepsListFragment();
-                if (isBigScreen) {
+                if (isBigScreen()) {
                     loadStepDetailsFragment(null);
                 }
             }
         } else {
             recipe = savedInstanceState.getParcelable(Constants.BundleKeys.RecipeDetails);
             stepsListFragment = (StepsListFragment) getSupportFragmentManager().getFragment(savedInstanceState, Constants.BundleKeys.StepsListFragment);
-            stepDetailsFragment = (StepDetailsFragment) getSupportFragmentManager().getFragment(savedInstanceState, Constants.BundleKeys.StepDetailsFragment);
+            if (isBigScreen()) {
+                stepDetailsFragment = (StepDetailsFragment) getSupportFragmentManager().getFragment(savedInstanceState, Constants.BundleKeys.StepDetailsFragment);
+                if (stepDetailsFragment == null) {
+                    loadStepDetailsFragment(null);
+                }
+            }
         }
     }
 
@@ -76,7 +79,7 @@ public class RecipeDetailsActivity extends AppCompatActivity
 
         outState.putParcelable(Constants.BundleKeys.RecipeDetails, recipe);
         getSupportFragmentManager().putFragment(outState, Constants.BundleKeys.StepsListFragment, stepsListFragment);
-        if (isBigScreen) {
+        if (isBigScreen()) {
             getSupportFragmentManager().putFragment(outState, Constants.BundleKeys.StepDetailsFragment, stepDetailsFragment);
         }
     }
@@ -98,14 +101,22 @@ public class RecipeDetailsActivity extends AppCompatActivity
 
     @Override
     public void onStepSelected(Step step, int currentStepPosition) {
-        if (isBigScreen) {
+        if (isBigScreen()) {
+            loadStepDetailsFragment(step);
+        }
+    }
+
+    @Override
+    public void navigateToStep(int stepId) {
+        if (isBigScreen()) {
+            Step step = recipe.getSteps().get(stepId);
             loadStepDetailsFragment(step);
         }
     }
 
     @Override
     public boolean isBigScreen() {
-        return isBigScreen;
+        return findViewById(R.id.step_details) != null;
     }
 
     private void loadStepsListFragment() {

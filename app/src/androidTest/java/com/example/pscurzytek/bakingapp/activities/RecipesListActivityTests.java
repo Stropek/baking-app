@@ -89,6 +89,22 @@ public class RecipesListActivityTests {
     }
 
     @Test
+    public void toggleOrientationTwice_displaysRecipes() {
+        // given
+        List<Recipe> recipes = ObjectFactory.createRecipes(10);
+        when(recipeService.getRecipes()).thenReturn(recipes);
+
+        testRule.launchActivity(null);
+
+        // when
+        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        // then
+        onView(withId(R.id.recipes_grid_view)).check(matches(withGridSize(10)));
+    }
+
+    @Test
     public void clickRecipe_opensRecipeDetailsActivity() {
         // given
         List<Recipe> recipes = ObjectFactory.createRecipes(5);

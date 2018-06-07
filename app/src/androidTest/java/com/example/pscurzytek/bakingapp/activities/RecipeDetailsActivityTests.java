@@ -86,6 +86,27 @@ public class RecipeDetailsActivityTests {
     }
 
     @Test
+    public void toggleOrientationTwice_displaysRecipeDetails() {
+        // given
+        ArrayList<Ingredient> ingredients = ObjectFactory.createIngredients(5);
+        ArrayList<Step> steps = ObjectFactory.createSteps(5);
+        Recipe recipe = new Recipe(1, "recipe", ingredients, steps, 1, "image");
+
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BundleKeys.RecipeDetails, recipe);
+
+        testRule.launchActivity(intent);
+
+        // when
+        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        // then
+        onView(withId(R.id.ingredients_textView)).check(matches(withText(containsString("- ingredient 2 - 2.0 measure 2"))));
+        onView(withId(R.id.steps_recyclerView)).check(matches(hasDescendant(withText("2."))));
+    }
+
+    @Test
     public void openStepDetailsAndPressHomeButton_displaysRecipeDetails() {
         // given
         ArrayList<Ingredient> ingredients = ObjectFactory.createIngredients(5);
