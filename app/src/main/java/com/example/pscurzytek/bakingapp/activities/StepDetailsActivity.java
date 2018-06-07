@@ -3,6 +3,7 @@ package com.example.pscurzytek.bakingapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ public class StepDetailsActivity extends AppCompatActivity
     implements OnStepNavigationListener {
 
     private ArrayList<Step> steps;
+    private StepDetailsFragment stepDetailsFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,8 +34,17 @@ public class StepDetailsActivity extends AppCompatActivity
             Step step = intent.getParcelableExtra(Constants.BundleKeys.StepDetails);
             loadStepDetailsFragment(step);
         } else {
-            // TODO: load persisted state
+            steps = savedInstanceState.getParcelableArrayList(Constants.BundleKeys.StepsList);
+            stepDetailsFragment = (StepDetailsFragment) getSupportFragmentManager().getFragment(savedInstanceState, Constants.BundleKeys.StepDetailsFragment);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(Constants.BundleKeys.StepsList, steps);
+        getSupportFragmentManager().putFragment(outState, Constants.BundleKeys.StepDetailsFragment, stepDetailsFragment);
     }
 
     @Override
@@ -64,7 +75,7 @@ public class StepDetailsActivity extends AppCompatActivity
     }
 
     private void loadStepDetailsFragment(Step step) {
-        StepDetailsFragment stepDetailsFragment = getStepDetailsFragment(step);
+        stepDetailsFragment = getStepDetailsFragment(step);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         fragmentTransaction.replace(R.id.step_details, stepDetailsFragment);

@@ -1,6 +1,5 @@
 package com.example.pscurzytek.bakingapp.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +33,6 @@ public class StepsListFragment extends Fragment
 
     private final int STEP_DETAILS_REQUEST = 1;
 
-    private Activity activity;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
     private int currentStepPosition = 0;
@@ -48,11 +46,10 @@ public class StepsListFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = getActivity();
 
         loadData(savedInstanceState);
 
-        stepRecyclerAdapter = new StepRecyclerAdapter(activity, steps, currentStepPosition, this);
+        stepRecyclerAdapter = new StepRecyclerAdapter(getActivity(), steps, currentStepPosition, this);
     }
 
     @Override

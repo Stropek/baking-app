@@ -1,6 +1,7 @@
 package com.example.pscurzytek.bakingapp.activities;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -67,6 +68,21 @@ public class RecipesListActivityTests {
 
         // when
         testRule.launchActivity(null);
+
+        // then
+        onView(withId(R.id.recipes_grid_view)).check(matches(withGridSize(10)));
+    }
+
+    @Test
+    public void toggleOrientation_displaysRecipes() {
+        // given
+        List<Recipe> recipes = ObjectFactory.createRecipes(10);
+        when(recipeService.getRecipes()).thenReturn(recipes);
+
+        testRule.launchActivity(null);
+
+        // when
+        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // then
         onView(withId(R.id.recipes_grid_view)).check(matches(withGridSize(10)));

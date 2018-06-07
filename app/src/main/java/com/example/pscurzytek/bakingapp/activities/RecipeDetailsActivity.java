@@ -27,7 +27,6 @@ public class RecipeDetailsActivity extends AppCompatActivity
     private StepsListFragment stepsListFragment;
     private StepDetailsFragment stepDetailsFragment;
 
-    // TODO: inject with Dagger for testing
     private WidgetDataProvider widgetDataProvider;
 
     private static boolean isBigScreen;
@@ -52,7 +51,9 @@ public class RecipeDetailsActivity extends AppCompatActivity
                 }
             }
         } else {
-            // TODO: load persisted state
+            recipe = savedInstanceState.getParcelable(Constants.BundleKeys.RecipeDetails);
+            stepsListFragment = (StepsListFragment) getSupportFragmentManager().getFragment(savedInstanceState, Constants.BundleKeys.StepsListFragment);
+            stepDetailsFragment = (StepDetailsFragment) getSupportFragmentManager().getFragment(savedInstanceState, Constants.BundleKeys.StepDetailsFragment);
         }
     }
 
@@ -73,7 +74,11 @@ public class RecipeDetailsActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // TODO: persist state
+        outState.putParcelable(Constants.BundleKeys.RecipeDetails, recipe);
+        getSupportFragmentManager().putFragment(outState, Constants.BundleKeys.StepsListFragment, stepsListFragment);
+        if (isBigScreen) {
+            getSupportFragmentManager().putFragment(outState, Constants.BundleKeys.StepDetailsFragment, stepDetailsFragment);
+        }
     }
 
     @Override

@@ -65,7 +65,6 @@ public class StepDetailsFragment extends Fragment
     private int startWindow;
     private long startPosition;
 
-    private OnStepSelectedListener stepSelectedListener;
     private OnStepNavigationListener stepNavigationListener;
 
     @BindView(R.id.content) LinearLayout contentLinearLayout;
@@ -81,16 +80,17 @@ public class StepDetailsFragment extends Fragment
 
         context = getContext();
         Bundle arguments = getArguments();
-        if (arguments != null) {
-            step = arguments.getParcelable(Constants.BundleKeys.StepDetails);
-        }
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            if (arguments != null) {
+                step = arguments.getParcelable(Constants.BundleKeys.StepDetails);
+            }
+            clearStartPosition();
+        } else {
+            step = savedInstanceState.getParcelable(Constants.BundleKeys.StepDetails);
             startAutoPlay = savedInstanceState.getBoolean(Constants.BundleKeys.PlayerAutoPlay);
             startWindow = savedInstanceState.getInt(Constants.BundleKeys.PlayerWindow);
             startPosition = savedInstanceState.getLong(Constants.BundleKeys.PlayerPosition);
-        } else {
-            clearStartPosition();
         }
     }
 
@@ -99,7 +99,7 @@ public class StepDetailsFragment extends Fragment
         super.onAttach(context);
         try {
             if (context.getClass().getName().equals(RecipeDetailsActivity.class.getName())) {
-                stepSelectedListener = (OnStepSelectedListener) context;
+                OnStepSelectedListener stepSelectedListener = (OnStepSelectedListener) context;
                 isBigScreen = stepSelectedListener.isBigScreen();
             }
             stepNavigationListener = (OnStepNavigationListener) context;
@@ -110,7 +110,10 @@ public class StepDetailsFragment extends Fragment
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
         updateStartPosition();
+        outState.putParcelable(Constants.BundleKeys.StepDetails, step);
         outState.putBoolean(Constants.BundleKeys.PlayerAutoPlay, startAutoPlay);
         outState.putInt(Constants.BundleKeys.PlayerWindow, startWindow);
         outState.putLong(Constants.BundleKeys.PlayerPosition, startPosition);

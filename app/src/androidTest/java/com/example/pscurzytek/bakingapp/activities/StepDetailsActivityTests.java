@@ -52,6 +52,23 @@ public class StepDetailsActivityTests {
     }
 
     @Test
+    public void toggleOrientation_contentTakesFullScreen() {
+        // given
+        Step step = new Step(1, "test step", "test step description", "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4", "thumbnail");
+
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BundleKeys.StepDetails, step);
+        testRule.launchActivity(intent);
+
+        // when
+        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        // then
+        onView(withId(R.id.media_playerView)).check(matches(isDisplayed()));
+        onView(withId(R.id.step_instructions_textView)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
     public void noVideoButValidThumbnailUrl_displaysThumbnailImageView() {
         // given
         Step step = new Step(1, "test step", "test step description", "", "https://kconcrete.com/wp-content/uploads/2017/08/product-video-placeholder.jpg");
@@ -69,23 +86,6 @@ public class StepDetailsActivityTests {
         onView(withId(R.id.step_instructions_textView)).check(matches(withText("test step description")));
         onView(withId(R.id.previous_button)).check(matches(isDisplayed()));
         onView(withId(R.id.next_button)).check(matches(isDisplayed()));    }
-
-    @Test
-    public void horizontalOrientation_exoPlayerTakesFullScreen() {
-        // given
-        Step step = new Step(1, "test step", "test step description", "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4", "thumbnail");
-
-        Intent intent = new Intent();
-        intent.putExtra(Constants.BundleKeys.StepDetails, step);
-        testRule.launchActivity(intent);
-
-        // when
-        testRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        // then
-        onView(withId(R.id.media_playerView)).check(matches(isDisplayed()));
-        onView(withId(R.id.step_instructions_textView)).check(matches(not(isDisplayed())));
-    }
 
     @Test
     public void navigateThroughSteps_Next_navigatesBackToFirstStep() {
