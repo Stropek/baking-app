@@ -83,7 +83,7 @@ public class StepDetailsActivityTests {
 
         // then
         onView(withId(R.id.media_playerView)).check(matches(isDisplayed()));
-        onView(withId(R.id.step_instructions_textView)).check(matches(not(isDisplayed())));
+
     }
 
     @Test
