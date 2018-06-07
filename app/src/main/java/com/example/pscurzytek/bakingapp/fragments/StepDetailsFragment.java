@@ -80,9 +80,6 @@ public class StepDetailsFragment extends Fragment
             step = arguments.getParcelable(Constants.BundleKeys.StepDetails);
         }
 
-        // TODO: if video url is valid, initialize player, otherwise if image is valid - display the image, otherwise display placeholder imageRe
-        initializePlayer(context, step);
-
         if (savedInstanceState != null) {
             startAutoPlay = savedInstanceState.getBoolean(Constants.BundleKeys.PlayerAutoPlay);
             startWindow = savedInstanceState.getInt(Constants.BundleKeys.PlayerWindow);
@@ -115,8 +112,8 @@ public class StepDetailsFragment extends Fragment
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         releasePlayer();
     }
 
@@ -125,6 +122,8 @@ public class StepDetailsFragment extends Fragment
         View view = inflater.inflate(R.layout.step_details_fragment, container, false);
         ButterKnife.bind(this, view);
 
+        // TODO: if video url is valid, initialize player, otherwise if image is valid - display the image, otherwise display placeholder imageRe
+        initializePlayer(context, step);
         instructionsTextView.setText(step.getDescription());
 
         View decorView = getActivity().getWindow().getDecorView();
@@ -203,18 +202,17 @@ public class StepDetailsFragment extends Fragment
     }
 
     @OnClick(R.id.previous_button) @Optional
-    public void onPreviousButtonClicked(Button button) {
-        Log.d(TAG, "previousButtonClicked");
+    public void onPreviousButtonClicked() {
         stepNavigationListener.navigateToStep(step.getId() - 1);
     }
 
     @OnClick(R.id.next_button) @Optional
-    public void onNextButtonClicked(Button button) {
-        Log.d(TAG, "nextButtonClicked");
+    public void onNextButtonClicked() {
         stepNavigationListener.navigateToStep(step.getId() + 1);
     }
 
     private void initializePlayer(Context context, Step step) {
+
         if (player == null) {
             DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
 
@@ -223,6 +221,7 @@ public class StepDetailsFragment extends Fragment
 
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
             player.addListener(this);
+            player.setPlayWhenReady(startAutoPlay);
 
             String userAgent = Util.getUserAgent(context, getString(R.string.app_name));
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context, userAgent, bandwidthMeter);
@@ -230,7 +229,12 @@ public class StepDetailsFragment extends Fragment
             Uri videoUri = Uri.parse(step.getVideoUrl());
             MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(videoUri);
-            player.prepare(videoSource);
+
+            boolean haveStartPosition = startWindow != C.INDEX_UNSET;
+            if (haveStartPosition) {
+                player.seekTo(startWindow, startPosition);
+            }
+            player.prepare(videoSource, !haveStartPosition, false);
         }
     }
 
