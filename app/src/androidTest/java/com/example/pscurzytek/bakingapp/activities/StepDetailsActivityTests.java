@@ -44,11 +44,31 @@ public class StepDetailsActivityTests {
 
         // then
         onView(withId(R.id.media_playerView)).check(matches(isDisplayed()));
+        onView(withId(R.id.thumbnail_imageView)).check(matches(not(isDisplayed())));
         onView(withId(R.id.step_instructions_textView)).check(matches(isDisplayed()));
         onView(withId(R.id.step_instructions_textView)).check(matches(withText("test step description")));
         onView(withId(R.id.previous_button)).check(matches(isDisplayed()));
         onView(withId(R.id.next_button)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void noVideoButValidThumbnailUrl_displaysThumbnailImageView() {
+        // given
+        Step step = new Step(1, "test step", "test step description", "", "https://kconcrete.com/wp-content/uploads/2017/08/product-video-placeholder.jpg");
+
+        Intent intent = new Intent();
+        intent.putExtra(Constants.BundleKeys.StepDetails, step);
+
+        // when
+        testRule.launchActivity(intent);
+
+        // then
+        onView(withId(R.id.media_playerView)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.thumbnail_imageView)).check(matches(isDisplayed()));
+        onView(withId(R.id.step_instructions_textView)).check(matches(isDisplayed()));
+        onView(withId(R.id.step_instructions_textView)).check(matches(withText("test step description")));
+        onView(withId(R.id.previous_button)).check(matches(isDisplayed()));
+        onView(withId(R.id.next_button)).check(matches(isDisplayed()));    }
 
     @Test
     public void horizontalOrientation_exoPlayerTakesFullScreen() {

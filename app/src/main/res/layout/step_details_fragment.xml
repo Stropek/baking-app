@@ -5,15 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/media_playerView"
+    <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/standard_margin"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/step_instructions_textView"/>
+        app:layout_constraintBottom_toTopOf="@+id/step_instructions_textView">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/media_playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/thumbnail_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/step_instructions_textView"
@@ -23,7 +36,7 @@
         android:textSize="@dimen/medium_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/media_playerView"
+        app:layout_constraintTop_toBottomOf="@+id/content"
         app:layout_constraintBottom_toTopOf="@+id/previous_button" />
 
     <Button

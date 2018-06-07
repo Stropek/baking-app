@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.pscurzytek.bakingapp.Constants;
@@ -42,6 +44,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +68,9 @@ public class StepDetailsFragment extends Fragment
     private OnStepSelectedListener stepSelectedListener;
     private OnStepNavigationListener stepNavigationListener;
 
+    @BindView(R.id.content) LinearLayout contentLinearLayout;
     @BindView(R.id.media_playerView) PlayerView mediaPlayerView;
+    @BindView(R.id.thumbnail_imageView) ImageView thumbnailImageView;
     @BindView(R.id.step_instructions_textView) TextView instructionsTextView;
     @BindView(R.id.previous_button) @Nullable Button previousButton;
     @BindView(R.id.next_button) @Nullable Button nextButton;
@@ -122,12 +127,14 @@ public class StepDetailsFragment extends Fragment
         View view = inflater.inflate(R.layout.step_details_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        // TODO: if video url is valid, initialize player, otherwise if image is valid - display the image, otherwise display placeholder imageRe
         initializePlayer(context, step);
         instructionsTextView.setText(step.getDescription());
 
+        boolean showThumbnail = step.getVideoUrl().isEmpty() && !step.getThumbnailUrl().isEmpty();
+
         View decorView = getActivity().getWindow().getDecorView();
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mediaPlayerView.getLayoutParams();
+
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) contentLinearLayout.getLayoutParams();
 
         if (!isBigScreen && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -143,8 +150,22 @@ public class StepDetailsFragment extends Fragment
             ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         }
 
-        mediaPlayerView.setLayoutParams(params);
-        mediaPlayerView.setPlayer(player);
+        if (showThumbnail) {
+            mediaPlayerView.setVisibility(View.GONE);
+            thumbnailImageView.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load(step.getThumbnailUrl())
+                    .placeholder(R.drawable.image_placeholder)
+                    .error(R.drawable.image_placeholder)
+                    .into(thumbnailImageView);
+        } else {
+            thumbnailImageView.setVisibility(View.GONE);
+            mediaPlayerView.setVisibility(View.VISIBLE);
+            mediaPlayerView.setPlayer(player);
+        }
+
+        contentLinearLayout.setLayoutParams(params);
+
         return view;
     }
 
