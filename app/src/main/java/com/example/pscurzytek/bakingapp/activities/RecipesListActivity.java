@@ -1,12 +1,16 @@
 package com.example.pscurzytek.bakingapp.activities;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.pscurzytek.bakingapp.BakingApp;
 import com.example.pscurzytek.bakingapp.Constants;
@@ -33,8 +37,8 @@ public class RecipesListActivity extends AppCompatActivity
     @Inject
     public RecipeService recipeService;
 
-    @BindView(R.id.recipes_grid_view)
-    public GridView recipesGridView;
+    @BindView(R.id.recipes_grid_view) public GridView recipesGridView;
+    @BindView(R.id.no_recipes_textView) public TextView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +62,16 @@ public class RecipesListActivity extends AppCompatActivity
 
             startActivity(intent);
         });
+        recipesGridView.setEmptyView(emptyView);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         if (displayMetrics.widthPixels <= 1200) {
             recipesGridView.setNumColumns(1);
         }
 
-        getLoaderManager().initLoader(RECIPE_LOADER_ID, null, this);
+        if (isConnected()) {
+            getLoaderManager().initLoader(RECIPE_LOADER_ID, null, this);
+        }
     }
 
     @Override
@@ -75,11 +82,20 @@ public class RecipesListActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<List<Recipe>> loader, List<Recipe> data) {
         recipeAdapter.clear();
-        recipeAdapter.addAll(data);
+        if (data != null) {
+            recipeAdapter.addAll(data);
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Recipe>> loader) {
         recipeAdapter.clear();
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

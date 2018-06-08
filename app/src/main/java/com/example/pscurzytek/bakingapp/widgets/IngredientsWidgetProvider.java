@@ -27,6 +27,7 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
         if (recipes != null && recipes.size() > 0) {
             views.setViewVisibility(R.id.recipe_name_textView, View.VISIBLE);
             views.setViewVisibility(R.id.ingredients_listView, View.VISIBLE);
+            views.setViewVisibility(R.id.empty_ingredients_textView, View.GONE);
 
             Recipe recipe = recipes.get(0);
 
@@ -46,6 +47,7 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
         } else {
             views.setViewVisibility(R.id.recipe_name_textView, View.GONE);
             views.setViewVisibility(R.id.ingredients_listView, View.GONE);
+            views.setViewVisibility(R.id.empty_ingredients_textView, View.VISIBLE);
 
             intent = new Intent(context, RecipesListActivity.class);
         }

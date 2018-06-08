@@ -5,4 +5,5 @@
     <string name="next">NEXT</string>
     <string name="previous">PREV</string>
     <string name="toggle_recipe">Widget</string>
+    <string name="no_data">no recipes</string>
 </resources>
